@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /* Immutable */
 final public class Address implements Serializable {
-	
+	//address fields
 	private static final long serialVersionUID = -891229800414574888L;
 	private String street;
 	private String city;
