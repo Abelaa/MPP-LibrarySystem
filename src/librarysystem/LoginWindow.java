@@ -186,9 +186,8 @@ public class LoginWindow extends JFrame implements LibWindow {
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
     			try {
-	    			String id = this.username.getText();
-	    			String password = this.password.getText();
-	    			this.ci.login(id, password);
+	 
+	    			ci.login(username.getText(),password.getText());
 
 	    			// redirect
 	    			JOptionPane.showMessageDialog(this, SystemController.currentAuth);
@@ -197,6 +196,8 @@ public class LoginWindow extends JFrame implements LibWindow {
     			} catch(Exception e) {
     				e.printStackTrace();
 	    			JOptionPane.showMessageDialog(this,"Invalid Credentials");
+	    			username.setText("");
+	    			password.setText("");
     			}
     		});
     	}
