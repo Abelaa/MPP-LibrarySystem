@@ -25,7 +25,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds; 
+	JMenuItem login, allBookIds, allMemberIds, addBook;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -63,6 +63,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     private void setPathToImage() {
     	String currDirectory = System.getProperty("user.dir");
+		// pathToImage = currDirectory + "/src/librarysystem/library.jpg";
     	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
     }
     
@@ -86,9 +87,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allBookIds.addActionListener(new AllBookIdsListener());
  	   allMemberIds = new JMenuItem("All Member Ids");
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
+		addBook = new JMenuItem("Add Book");
+		addBook.addActionListener(new AddBookListener());
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
+		options.add(addBook);
     }
     
     class LoginListener implements ActionListener {
@@ -135,7 +139,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AllMemberIdsWindow.INSTANCE.init();
 			AllMemberIdsWindow.INSTANCE.pack();
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
+
 			
 			LibrarySystem.hideAllWindows();
 			AllBookIdsWindow.INSTANCE.init();
@@ -153,7 +157,21 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
 			
-			
+
+		}
+    	
+    }
+    
+    class AddBookListener implements ActionListener {
+
+    	@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			AllMemberIdsWindow.INSTANCE.init();
+			AllMemberIdsWindow.INSTANCE.setData("TEST");
+			AllMemberIdsWindow.INSTANCE.pack();
+			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
+			AllMemberIdsWindow.INSTANCE.setVisible(true);
 		}
     	
     }
