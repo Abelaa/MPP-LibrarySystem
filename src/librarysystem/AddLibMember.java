@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,13 +18,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import business.Address;
 import business.ControllerInterface;
+import business.LibraryMember;
 import business.SystemController;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
 import librarysystem.LibrarySystem.AddLibMemberListener;
 
 
 public class AddLibMember extends JFrame  implements LibWindow{
-	private static final long serialVersionUID = 11;
+	private static final long serialVersionUID = 11L;
 	public static final AddLibMember INSTANCE = new AddLibMember();
     ControllerInterface ci = new SystemController();
     private boolean isInitialized = false;
@@ -133,6 +139,36 @@ public class AddLibMember extends JFrame  implements LibWindow{
 			panel.add(scrollPane);
 			
 			table = new JTable();
+			table.setBackground(new Color(255, 240, 245));
+			model = new DefaultTableModel();
+			String[] column = {"Member_ID","First Name","Last Name","Street Address","City","State","ZipCode","Telephone Number"};
+		    final String[] row = new String[8];
+			model.setColumnIdentifiers(column);
+			table.setModel(model);
+			scrollPane.setViewportView(table);
+			
+			/*DataAccess da=new DataAccessFacade();
+			
+			Object[][] tableData = new Object[da.readMemberMap().keySet().size()][10];
+			 System.out.println("Member size: "+da.readMemberMap().keySet().size());
+			int index = 0;
+			for (String key : da.readMemberMap().keySet())
+			{ 
+			    LibraryMember member =da.readMemberMap().get(key);
+			    tableData[index][0] = member.getMemberId();
+			    tableData[index][1] = member.getFirstName().toString();
+			    tableData[index][2] = member.getLastName();
+			    tableData[index][3] = member.getAddress().getStreet();
+			    tableData[index][4] = member.getAddress().getCity();
+			    tableData[index][5] = member.getAddress().getState();
+			    tableData[index][6] = member.getAddress().getZip();
+			    tableData[index][7] = member.getTelephone();
+			    model.addRow(tableData);
+			    index++;
+			}*/
+			
+			
+			
 			table.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
@@ -140,27 +176,21 @@ public class AddLibMember extends JFrame  implements LibWindow{
 					idLabeltf.setText(model.getValueAt(r, 0).toString());
 					fnameLabeltf.setText(model.getValueAt(r, 1).toString());
 					lnameLabeltf.setText(model.getValueAt(r, 2).toString());
-					streetLabeltf.setText(model.getValueAt(r, 0).toString());
-					cityLabeltf.setText(model.getValueAt(r, 1).toString());
-					stateLabeltf.setText(model.getValueAt(r, 2).toString());
-					ZipcodeLabeltf.setText(model.getValueAt(r, 0).toString());
-					telephoneLabeltf.setText(model.getValueAt(r, 1).toString());
+					streetLabeltf.setText(model.getValueAt(r, 3).toString());
+					cityLabeltf.setText(model.getValueAt(r, 4).toString());
+					stateLabeltf.setText(model.getValueAt(r, 5).toString());
+					ZipcodeLabeltf.setText(model.getValueAt(r, 6).toString());
+					telephoneLabeltf.setText(model.getValueAt(r, 7).toString());
 					
 				}
 			});
-			table.setBackground(new Color(255, 240, 245));
-			model = new DefaultTableModel();
-			String[] column = {"ID","Book Name","Author"};
-		    final String[] row = new String[3];
-			model.setColumnIdentifiers(column);
-			table.setModel(model);
-			scrollPane.setViewportView(table);
+		
 			
 			JButton btnadd = new JButton("Add");
 			btnadd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(idLabeltf.getText().equals("")||fnameLabeltf.getText().equals("")||lnameLabeltf.getText().equals("")||stateLabeltf.getText().equals("")||
-							cityLabeltf.getText().equals("")||streetLabeltf.getText().equals("")||lnameLabeltf.getText().equals("")||
+					if(idLabeltf.getText().equals("")||fnameLabeltf.getText().equals("")||lnameLabeltf.getText().equals("")||streetLabeltf.getText().equals("")||
+							cityLabeltf.getText().equals("")||stateLabeltf.getText().equals("")||
 							ZipcodeLabeltf.getText().equals("")||telephoneLabeltf.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Please fill all the fields");
 					}
@@ -176,12 +206,17 @@ public class AddLibMember extends JFrame  implements LibWindow{
 					row[7] = telephoneLabeltf.getText();
 					
 					model.addRow(row);
+					Address address=new Address(streetLabeltf.getText(), cityLabeltf.getText(), stateLabeltf.getText(), ZipcodeLabeltf.getText());
+					LibraryMember libraryMember=new LibraryMember(idLabeltf.getText(),fnameLabeltf.getText() , lnameLabeltf.getText(), 
+							telephoneLabeltf.getText(), address);
+					
+					ci.addLibraryMember(libraryMember);
 					JOptionPane.showMessageDialog(null, "Added Successfully");
 					// clear all the text fields
 				    idLabeltf.setText("");
 				    fnameLabeltf.setText("");
 				    lnameLabeltf.setText("");
-				    stateLabeltf.setText("");
+				    streetLabeltf.setText("");
 				    cityLabeltf.setText("");
 				    stateLabeltf.setText("");
 				    ZipcodeLabeltf.setText("");
@@ -214,11 +249,12 @@ public class AddLibMember extends JFrame  implements LibWindow{
 			btnupdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int r = table.getSelectedRow();
+					System.out.println("R"+ r);
 					if(r>=0) {
 					model.setValueAt(idLabeltf.getText(), r, 0);
 					model.setValueAt(fnameLabeltf.getText(), r, 1);
 					model.setValueAt(lnameLabeltf.getText(), r, 2);
-					model.setValueAt(stateLabeltf.getText(), r, 3);
+					model.setValueAt(streetLabeltf.getText(), r, 3);
 					model.setValueAt(cityLabeltf.getText(), r, 4);
 					model.setValueAt(stateLabeltf.getText(), r, 5);
 					model.setValueAt(ZipcodeLabeltf.getText(), r, 6);
@@ -240,7 +276,7 @@ public class AddLibMember extends JFrame  implements LibWindow{
 				    idLabeltf.setText("");
 				    fnameLabeltf.setText("");
 				    lnameLabeltf.setText("");
-				    stateLabeltf.setText("");
+				    streetLabeltf.setText("");
 				    cityLabeltf.setText("");
 				    stateLabeltf.setText("");
 				    ZipcodeLabeltf.setText("");
@@ -255,6 +291,7 @@ public class AddLibMember extends JFrame  implements LibWindow{
 			btnback.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					LibrarySystem.hideAllWindows();
+					AddLibMember.this.setVisible(false);
 					LibrarySystem.INSTANCE.setVisible(true);
 					//MainWindow mWindow = new MainWindow();
 					
