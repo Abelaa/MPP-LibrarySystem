@@ -34,6 +34,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE
+		//AddLibMember.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -182,6 +183,10 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	@Override
     	public void actionPerformed(ActionEvent e){
     		System.out.println("Add library member here");
+    		LibrarySystem.hideAllWindows();
+    		AddLibMember.INSTANCE.init();
+    		AddLibMember.INSTANCE.setVisible(true);
+
     	}
     }
 
