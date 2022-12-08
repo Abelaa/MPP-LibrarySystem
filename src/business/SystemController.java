@@ -45,6 +45,10 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBook(book);
 	}
+	public void addLibraryMember(LibraryMember libraryMember) {
+		DataAccess da= new DataAccessFacade();
+		da.saveNewMember(libraryMember);
+	}
 	
 	
 }
