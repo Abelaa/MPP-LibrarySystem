@@ -230,8 +230,14 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        //TODO: 
+        /*
+        1. If ADMIN is logged in, navigate to ---
+        2. If LIBRARIAN is logged in, navigate to ---
+        3. If BOTH is logged in, naviage to ---
+        */
         this.setVisible(false);
-        LibraryMember libraryMember = new LibraryMember();
+        LibraryMemberWindow libraryMember = new LibraryMemberWindow();
                 
         FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
         libraryMember.addMouseListener(frameDragListener);
