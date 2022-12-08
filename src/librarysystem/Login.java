@@ -232,6 +232,11 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         this.setVisible(false);
         LibraryMember libraryMember = new LibraryMember();
+                
+        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
+        libraryMember.addMouseListener(frameDragListener);
+        libraryMember.addMouseMotionListener(frameDragListener);
+        libraryMember.setLocationRelativeTo(null);
         libraryMember.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 

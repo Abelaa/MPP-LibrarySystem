@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JOptionPane;
 
 import business.ControllerInterface;
-
+import business.LoginException;
 import business.SystemController;
 
 
@@ -44,8 +44,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JButton loginButton;
 	private JButton logoutButton;
 	
-	
-	
+	ControllerInterface ci = new SystemController();
 	
 	public boolean isInitialized() {
 		return isInitialized;
@@ -186,8 +185,20 @@ public class LoginWindow extends JFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
-    			JOptionPane.showMessageDialog(this,"Successful Login");
-    				
+    			try {
+	 
+	    			ci.login(username.getText(),password.getText());
+
+	    			// redirect
+	    			JOptionPane.showMessageDialog(this, SystemController.currentAuth);
+	    			LibrarySystem.hideAllWindows();
+	    			LibrarySystem.INSTANCE.setVisible(true);
+    			} catch(Exception e) {
+    				e.printStackTrace();
+	    			JOptionPane.showMessageDialog(this,"Invalid Credentials");
+	    			username.setText("");
+	    			password.setText("");
+    			}
     		});
     	}
 	
