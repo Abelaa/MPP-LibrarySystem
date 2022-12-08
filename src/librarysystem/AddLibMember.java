@@ -165,18 +165,8 @@ public class AddLibMember extends JFrame  implements LibWindow{
 						v.getAddress().getZip(),
 						v.getTelephone()
 				};
+				//already existing data in data storage
 				model.insertRow(0, arow);
-//			    LibraryMember member =da.readMemberMap().get(key);
-//			    tableData[index][0] = member.getMemberId();
-//			    tableData[index][1] = member.getFirstName().toString();
-//			    tableData[index][2] = member.getLastName();
-//			    tableData[index][3] = member.getAddress().getStreet();
-//			    tableData[index][4] = member.getAddress().getCity();
-//			    tableData[index][5] = member.getAddress().getState();
-//			    tableData[index][6] = member.getAddress().getZip();
-//			    tableData[index][7] = member.getTelephone();
-//			    model.addRow(tableData);
-			    index++;
 			}
 		
 			
@@ -247,6 +237,14 @@ public class AddLibMember extends JFrame  implements LibWindow{
 					int r = table.getSelectedRow();
 					if(r>=0) {
 						model.removeRow(r);
+					    idLabeltf.setText("");
+					    fnameLabeltf.setText("");
+					    lnameLabeltf.setText("");
+					    streetLabeltf.setText("");
+					    cityLabeltf.setText("");
+					    stateLabeltf.setText("");
+					    ZipcodeLabeltf.setText("");
+					    telephoneLabeltf.setText("");
 						JOptionPane.showMessageDialog(null, "Deleted Successfully");
 						
 					}
