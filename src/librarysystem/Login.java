@@ -4,19 +4,27 @@
  */
 package librarysystem;
 
+import javax.swing.JOptionPane;
+
+import business.ControllerInterface;
+import business.SystemController;
+
 /**
  *
  * @author GebreegziabherG
  */
 public class Login extends javax.swing.JFrame {
 
+	private ControllerInterface ci;
+	
     /**
      * Creates new form Login
      */
     public Login() {
+    	ci = new SystemController();
         initComponents();
     }
-
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -236,14 +244,27 @@ public class Login extends javax.swing.JFrame {
         2. If LIBRARIAN is logged in, navigate to ---
         3. If BOTH is logged in, naviage to ---
         */
-        this.setVisible(false);
-        LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-                
-        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
-        libraryMember.addMouseListener(frameDragListener);
-        libraryMember.addMouseMotionListener(frameDragListener);
-        libraryMember.setLocationRelativeTo(null);
-        libraryMember.setVisible(true);
+    	
+    	try {
+    		String username = txtFieldUsername.getText();
+    		String password = String.valueOf(passwordTextField.getPassword());
+			ci.login(username, password);
+
+			JOptionPane.showMessageDialog(this, SystemController.currentAuth);
+    	
+	        this.setVisible(false);
+	        LibraryMemberWindow libraryMember = new LibraryMemberWindow();
+	        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
+	        libraryMember.addMouseListener(frameDragListener);
+	        libraryMember.addMouseMotionListener(frameDragListener);
+	        libraryMember.setLocationRelativeTo(null);
+	        libraryMember.setVisible(true);
+
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(this,"Invalid Credentials");
+			txtFieldUsername.setText("");
+			passwordTextField.setText("");
+		}
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
