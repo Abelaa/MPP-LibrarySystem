@@ -45,10 +45,22 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBook(book);
 	}
+	@Override
 	public void addLibraryMember(LibraryMember libraryMember) {
 		DataAccess da= new DataAccessFacade();
 		da.saveNewMember(libraryMember);
 	}
-	
+	@Override
+	public Book addBookCopyByIsbn(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> booksMap = da.readBooksMap();
+		Book book = booksMap.get(isbn);
+		if (book == null) return null;
+		
+		book.addCopy();
+		da.updateBook(book);
+		return book;
+	}
+
 	
 }

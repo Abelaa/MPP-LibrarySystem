@@ -25,7 +25,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember;
+	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember, addCopy;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -64,8 +64,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     private void setPathToImage() {
     	String currDirectory = System.getProperty("user.dir");
-		// pathToImage = currDirectory + "/src/librarysystem/library.jpg";
-    	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
+		 pathToImage = currDirectory + "/src/librarysystem/library.jpg";
+//    	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
     }
     
     private void insertSplashImage() {
@@ -92,11 +92,15 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		addBook.addActionListener(new AddBookListener());
 		addLibraryMember= new JMenuItem("Add Library Member");
 		addLibraryMember.addActionListener(new AddLibMemberListener());
+		addCopy = new JMenuItem("Add copy");
+		addCopy.addActionListener(new AddCopyListener());
+		
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
 		options.add(addBook);
 		options.add(addLibraryMember);
+		options.add(addCopy);
     }
     
     class LoginListener implements ActionListener {
@@ -183,9 +187,22 @@ public class LibrarySystem extends JFrame implements LibWindow {
     	public void actionPerformed(ActionEvent e){
     		System.out.println("Add library member here");
     		LibrarySystem.hideAllWindows();
-    		AddLibMember.INSTANCE.init();
-    		AddLibMember.INSTANCE.setVisible(true);
+//    		AddLibMember.INSTANCE.init();
+//    		AddLibMember.INSTANCE.setVisible(true);
 
+    	}
+    }
+    
+    class AddCopyListener implements ActionListener {
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+
+			LibrarySystem.hideAllWindows();
+			AddCopy.INSTANCE.init();
+			AddCopy.INSTANCE.pack();
+			Util.centerFrameOnDesktop(AddCopy.INSTANCE);
+			AddCopy.INSTANCE.setVisible(true);
+    		
     	}
     }
 
