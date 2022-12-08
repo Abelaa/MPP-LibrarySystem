@@ -1,7 +1,7 @@
 .DS_Store
-<<<<<<< HEAD
 /nbproject/private/
 /build/
-=======
 *.class
->>>>>>> c4a8c12a27ea8a275ab39c436a2e0b881f9fa74c
+*.class
+bin/
+src/dataaccess/storage/

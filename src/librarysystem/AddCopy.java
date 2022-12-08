@@ -20,8 +20,8 @@ import business.ControllerInterface;
 import business.SystemController;
 
 
-public class AddBook extends JFrame implements LibWindow {
-	public static final AddBook INSTANCE = new AddBook();
+public class AddCopy extends JFrame implements LibWindow {
+	public static final AddCopy INSTANCE = new AddCopy();
     ControllerInterface ci = new SystemController();
 	private boolean isInitialized = false;
 	public JPanel getMainPanel() {
@@ -31,11 +31,10 @@ public class AddBook extends JFrame implements LibWindow {
 	private JPanel topPanel;
 	private JPanel middlePanel;
 	private JPanel lowerPanel;
-	private TextArea textArea;
-	private JTextField tfIsbn, tfTitle, tfAuthor, tfMaxcheckoutLength, tfNumOfCopies;
-	private JButton btnAddBook;
+	private JTextField tfIsbn;
+	private JButton btnAddCopy;
 	
-	private AddBook() {}
+	private AddCopy() {}
 	
 	public void init() {
 		mainPanel = new JPanel();
@@ -52,7 +51,7 @@ public class AddBook extends JFrame implements LibWindow {
 	
 	public void defineTopPanel() {
 		topPanel = new JPanel();
-		JLabel AddBookLabel = new JLabel("Add Book");
+		JLabel AddBookLabel = new JLabel("Add Copy");
 		Util.adjustLabelFont(AddBookLabel, Util.DARK_BLUE, true);
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		topPanel.add(AddBookLabel);
@@ -64,19 +63,11 @@ public class AddBook extends JFrame implements LibWindow {
 		middlePanel.setLayout(fl);
 		
 		tfIsbn = new JTextField(10);
-		tfTitle = new JTextField(10);
-		tfAuthor = new JTextField(10); 
-		tfMaxcheckoutLength = new JTextField(10);
-		tfNumOfCopies = new JTextField(10);
-		btnAddBook = new JButton("Add Book");
+		btnAddCopy = new JButton("Add Copy");
 		
 		middlePanel.add(tfIsbn);
-		middlePanel.add(tfTitle);
-		middlePanel.add(tfAuthor);
-		middlePanel.add(tfMaxcheckoutLength);
-		middlePanel.add(tfNumOfCopies);
-		middlePanel.add(btnAddBook);
-		addBookButtonListener(btnAddBook);
+		middlePanel.add(btnAddCopy);
+		addCopyButtonListener(btnAddCopy);
 	}
 	
 	public void defineLowerPanel() {
@@ -98,32 +89,19 @@ public class AddBook extends JFrame implements LibWindow {
 	    });
 	}
 	
-	private void addBookButtonListener(JButton btn) {
+	private void addCopyButtonListener(JButton btn) {
 		btn.addActionListener(evt -> {
-			List<Author> authors = new ArrayList();
-			Address addr = new Address("street", "city", "state", "zip");
-			Address addr2 = new Address("street2", "city2", "state2", "zip2");
-			authors.add(new Author("fn", "ln", "T", addr, "bio"));
-			authors.add(new Author("fn2", "ln2", "T2", addr2, "bio2"));
 			
-			int numCopies;
-			try {
-				numCopies = Integer.parseInt(tfMaxcheckoutLength.getText().trim());
-			} catch (Exception e) {
-				numCopies = 0;
+			String isbn = tfIsbn.getText();
+			Book book = ci.addBookCopyByIsbn(isbn);
+			
+			System.out.println(ci.allBookIds());
+			if (book == null) {
+				JOptionPane.showMessageDialog(this, "Book not found.");
+				return;
 			}
 			
-			Book book = new Book(
-					tfIsbn.getText(), 
-					tfTitle.getText(),
-					numCopies,
-					authors);
-			ci.addBook(book);
-
-			JOptionPane.showMessageDialog(this, "Added successfully" + "\n\n" + ci.allBookIds());
-			
-			LibrarySystem.hideAllWindows();
-			LibrarySystem.INSTANCE.setVisible(true);
+			JOptionPane.showMessageDialog(this, "Book Copied successfully. " + book.getNumCopies());
 		});
 	}
 
