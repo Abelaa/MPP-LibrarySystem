@@ -58,7 +58,7 @@ public class BookWindow extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        booksListTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -135,41 +135,17 @@ public class BookWindow extends javax.swing.JFrame {
         );
 
         panelLinkManageBooks.setBackground(new java.awt.Color(60, 170, 230));
-        panelLinkManageBooks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                panelLinkManageBooksMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                panelLinkManageBooksMouseExited(evt);
-            }
-        });
 
         imgManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         imgManageBooks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgManageBooks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_book_20px.png"))); // NOI18N
         imgManageBooks.setOpaque(true);
-        imgManageBooks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                imgManageBooksMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                imgManageBooksMouseExited(evt);
-            }
-        });
 
         labelManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         labelManageBooks.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         labelManageBooks.setForeground(new java.awt.Color(255, 255, 255));
         labelManageBooks.setText(" Manage Books");
         labelManageBooks.setOpaque(true);
-        labelManageBooks.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                labelManageBooksMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                labelManageBooksMouseExited(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelLinkManageBooksLayout = new javax.swing.GroupLayout(panelLinkManageBooks);
         panelLinkManageBooks.setLayout(panelLinkManageBooksLayout);
@@ -188,12 +164,20 @@ public class BookWindow extends javax.swing.JFrame {
         );
 
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkCheckoutRecords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkCheckoutRecordsMouseClicked(evt);
+            }
+        });
 
         imgCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         imgCheckoutRecords.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgCheckoutRecords.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_to_do_20px.png"))); // NOI18N
         imgCheckoutRecords.setOpaque(true);
         imgCheckoutRecords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgCheckoutRecordsMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 imgCheckoutRecordsMouseEntered(evt);
             }
@@ -208,6 +192,9 @@ public class BookWindow extends javax.swing.JFrame {
         labelCheckoutRecords.setText(" Checkout Records");
         labelCheckoutRecords.setOpaque(true);
         labelCheckoutRecords.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelCheckoutRecordsMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 labelCheckoutRecordsMouseEntered(evt);
             }
@@ -233,12 +220,20 @@ public class BookWindow extends javax.swing.JFrame {
         );
 
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkMoreInfoMouseClicked(evt);
+            }
+        });
 
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgMoreInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_info_20px.png"))); // NOI18N
         imgMoreInfo.setOpaque(true);
         imgMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgMoreInfoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 imgMoreInfoMouseEntered(evt);
             }
@@ -253,6 +248,9 @@ public class BookWindow extends javax.swing.JFrame {
         labelMoreInfo.setText(" More info");
         labelMoreInfo.setOpaque(true);
         labelMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelMoreInfoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 labelMoreInfoMouseEntered(evt);
             }
@@ -458,7 +456,7 @@ public class BookWindow extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        booksListTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -477,17 +475,17 @@ public class BookWindow extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable1.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(180);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(70);
+        booksListTable.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(booksListTable);
+        booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (booksListTable.getColumnModel().getColumnCount() > 0) {
+            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            booksListTable.getColumnModel().getColumn(4).setResizable(false);
+            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+            booksListTable.getColumnModel().getColumn(5).setResizable(false);
+            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -575,30 +573,6 @@ public class BookWindow extends javax.swing.JFrame {
         linkManageMembersMouseExited();
     }//GEN-LAST:event_panelLinkManageMembersMouseExited
 
-    private void panelLinkManageBooksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageBooksMouseEntered
-        linkManageBooksMouseEntered();
-    }//GEN-LAST:event_panelLinkManageBooksMouseEntered
-
-    private void panelLinkManageBooksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageBooksMouseExited
-        linkManageBooksMouseExited();
-    }//GEN-LAST:event_panelLinkManageBooksMouseExited
-
-    private void imgManageBooksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgManageBooksMouseEntered
-        linkManageBooksMouseEntered();
-    }//GEN-LAST:event_imgManageBooksMouseEntered
-
-    private void labelManageBooksMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelManageBooksMouseEntered
-        linkManageBooksMouseEntered();
-    }//GEN-LAST:event_labelManageBooksMouseEntered
-
-    private void imgManageBooksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgManageBooksMouseExited
-        linkManageBooksMouseExited();
-    }//GEN-LAST:event_imgManageBooksMouseExited
-
-    private void labelManageBooksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelManageBooksMouseExited
-        linkManageBooksMouseExited();
-    }//GEN-LAST:event_labelManageBooksMouseExited
-
     private void imgCheckoutRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgCheckoutRecordsMouseEntered
         linkCheckoutRecordsMouseEntered();
     }//GEN-LAST:event_imgCheckoutRecordsMouseEntered
@@ -666,6 +640,30 @@ public class BookWindow extends javax.swing.JFrame {
     private void numberOfCopiesTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberOfCopiesTextFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_numberOfCopiesTextFieldActionPerformed
+
+    private void panelLinkCheckoutRecordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkCheckoutRecordsMouseClicked
+        navigateToCheckoutRecordWindow();
+    }//GEN-LAST:event_panelLinkCheckoutRecordsMouseClicked
+
+    private void imgCheckoutRecordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgCheckoutRecordsMouseClicked
+        navigateToCheckoutRecordWindow();
+    }//GEN-LAST:event_imgCheckoutRecordsMouseClicked
+
+    private void labelCheckoutRecordsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCheckoutRecordsMouseClicked
+        navigateToCheckoutRecordWindow();
+    }//GEN-LAST:event_labelCheckoutRecordsMouseClicked
+
+    private void panelLinkMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_panelLinkMoreInfoMouseClicked
+
+    private void imgMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_imgMoreInfoMouseClicked
+
+    private void labelMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_labelMoreInfoMouseClicked
     private void navigateToLibraryMemberWindow(){
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -689,6 +687,14 @@ public class BookWindow extends javax.swing.JFrame {
     }
     
     private void navigateToMoreInfoWindow(){
+        this.setVisible(false);
+        MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
+        
+        FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
+        moreInfoWindow.addMouseListener(frameDragListener);
+        moreInfoWindow.addMouseMotionListener(frameDragListener);
+        moreInfoWindow.setLocationRelativeTo(null);
+        moreInfoWindow.setVisible(true);
     }
     
     private void linkManageMembersMouseEntered(){
@@ -775,6 +781,7 @@ public class BookWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleTextField;
+    private javax.swing.JTable booksListTable;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;
@@ -795,7 +802,6 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelCheckoutRecords;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
