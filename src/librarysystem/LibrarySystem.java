@@ -25,7 +25,11 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
+<<<<<<< HEAD
+	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember,checkoutBook;
+=======
 	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember, addCopy;
+>>>>>>> 91a180d9b0de6265ba1b75eb3d116073a0339dd5
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -92,15 +96,24 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		addBook.addActionListener(new AddBookListener());
 		addLibraryMember= new JMenuItem("Add Library Member");
 		addLibraryMember.addActionListener(new AddLibMemberListener());
+<<<<<<< HEAD
+		checkoutBook=new JMenuItem("Check Out Book");
+		checkoutBook.addActionListener(new AddcheckOutBookListener());
+=======
 		addCopy = new JMenuItem("Add copy");
 		addCopy.addActionListener(new AddCopyListener());
 		
+>>>>>>> 91a180d9b0de6265ba1b75eb3d116073a0339dd5
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
 		options.add(addBook);
 		options.add(addLibraryMember);
+<<<<<<< HEAD
+		options.add(checkoutBook);
+=======
 		options.add(addCopy);
+>>>>>>> 91a180d9b0de6265ba1b75eb3d116073a0339dd5
     }
     
     class LoginListener implements ActionListener {
@@ -185,13 +198,29 @@ public class LibrarySystem extends JFrame implements LibWindow {
     class AddLibMemberListener implements ActionListener{
     	@Override
     	public void actionPerformed(ActionEvent e){
-    		System.out.println("Add library member here");
+    		//System.out.println("Add library member here");
     		LibrarySystem.hideAllWindows();
 //    		AddLibMember.INSTANCE.init();
 //    		AddLibMember.INSTANCE.setVisible(true);
 
     	}
     }
+<<<<<<< HEAD
+    class AddcheckOutBookListener implements ActionListener{
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		//System.out.println("check out here");
+    		LibrarySystem.hideAllWindows();
+    		try {
+				CheckOutBook.INSTANCE.init();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		//CheckOutBook.INSTANCE.setVisble(true);
+    	}
+    	
+=======
     
     class AddCopyListener implements ActionListener {
     	@Override
@@ -204,6 +233,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			AddCopy.INSTANCE.setVisible(true);
     		
     	}
+>>>>>>> 91a180d9b0de6265ba1b75eb3d116073a0339dd5
     }
 
 	@Override

@@ -148,22 +148,18 @@ public class AddLibMember extends JFrame  implements LibWindow{
 			scrollPane.setViewportView(table);
 			
 			DataAccess da=new DataAccessFacade();
-			//model.add
-			
-			Object[][] tableData = new Object[da.readMemberMap().keySet().size()][10];
-			 System.out.println("Member size: "+da.readMemberMap().keySet().size());
-			int index = 0;
-			for (LibraryMember v : da.readMemberMap().values())
+	 
+			for (LibraryMember member : da.readMemberMap().values())
 			{ 
 				String[] arow = {
-						v.getMemberId(),
-						v.getFirstName(),
-						v.getLastName(),
-						v.getAddress().getStreet(),
-						v.getAddress().getCity(),
-						v.getAddress().getState(),
-						v.getAddress().getZip(),
-						v.getTelephone()
+						member.getMemberId(),
+						member.getFirstName(),
+						member.getLastName(),
+						member.getAddress().getStreet(),
+						member.getAddress().getCity(),
+						member.getAddress().getState(),
+						member.getAddress().getZip(),
+						member.getTelephone()
 				};
 				//already existing data in data storage
 				model.insertRow(0, arow);
@@ -210,7 +206,7 @@ public class AddLibMember extends JFrame  implements LibWindow{
 					
 					Address address=new Address(streetLabeltf.getText(), cityLabeltf.getText(), stateLabeltf.getText(), ZipcodeLabeltf.getText());
 					LibraryMember libraryMember=new LibraryMember(idLabeltf.getText(),fnameLabeltf.getText() , lnameLabeltf.getText(), 
-							telephoneLabeltf.getText(), address);
+							telephoneLabeltf.getText(), address,null);
 					
 					ci.addLibraryMember(libraryMember);
 					model.addRow(row);
