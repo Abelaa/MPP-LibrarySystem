@@ -471,24 +471,24 @@
                       <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="bookTitleTextField" pref="130" max="32767" attributes="0"/>
-                          <Component id="memberIdLabel" pref="130" max="32767" attributes="0"/>
+                          <Component id="memberIdLabel" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="firstNameLabel" pref="130" max="32767" attributes="0"/>
-                          <Component id="iSBNNumberTextField" pref="130" max="32767" attributes="0"/>
+                          <Component id="iSBNNumberTextField" max="32767" attributes="0"/>
+                          <Component id="firstNameLabel" min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="numberOfCopiesTextField" max="32767" attributes="0"/>
                           <Component id="lastNameLabel" min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="maxCheckOutDaysTextField" max="32767" attributes="0"/>
-                          <Component id="lastNameLabel1" min="-2" pref="130" max="-2" attributes="0"/>
+                          <Component id="numberOfCheckoutDasysTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="lastNameLabel1" alignment="0" min="-2" pref="130" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                       <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="17" max="32767" attributes="0"/>
                   </Group>
@@ -504,18 +504,9 @@
                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lastNameLabel1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="maxCheckOutDaysTextField" min="-2" pref="25" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lastNameLabel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="numberOfCopiesTextField" min="-2" pref="25" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="lastNameLabel1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="numberOfCheckoutDasysTextField" min="-2" pref="25" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -528,7 +519,12 @@
                               <EmptySpace min="-2" pref="191" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="firstNameLabel" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="firstNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lastNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="numberOfCopiesTextField" min="-2" pref="25" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -556,10 +552,6 @@
                   </Border>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bookTitleTextFieldFocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="bookTitleTextFieldFocusLost"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="firstNameLabel">
               <Properties>
@@ -684,7 +676,7 @@
                 <Property name="text" type="java.lang.String" value="Max checkout(in days)"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="maxCheckOutDaysTextField">
+            <Component class="javax.swing.JTextField" name="numberOfCheckoutDasysTextField">
               <Properties>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="99" green="99" red="99" type="rgb"/>
@@ -699,7 +691,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="maxCheckOutDaysTextFieldActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="numberOfCheckoutDasysTextFieldActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
