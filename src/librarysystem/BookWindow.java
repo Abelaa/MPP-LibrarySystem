@@ -3,18 +3,49 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package librarysystem;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import business.Author;
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
+
+import java.awt.event.ActionEvent;
 
 /**
  *
  * @author GebreegziabherG
  */
 public class BookWindow extends javax.swing.JFrame {
+	private ControllerInterface ci;
 
     /**
      * Creates new form LibraryMemberWindow
      */
     public BookWindow() {
+        ci = new SystemController();
         initComponents();
+    }
+    
+    public void loadListOfBooks(DefaultTableModel tableModel) {
+    	List<Book> books = ci.allBooks();
+    	for (Book book : books) {
+            tableModel.insertRow(
+            	tableModel.getRowCount(), 
+        		new Object[] {
+    				book.getTitle(), 
+    				book.getIsbn(), 
+    				book.getCopyNums().size(),
+    				book.countAvailable()
+    			}
+            );
+    	}
     }
 
     /**
@@ -53,6 +84,21 @@ public class BookWindow extends javax.swing.JFrame {
         numberOfCopiesTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
+        btnAdd.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		
+        		String isbn = iSBNNumberTextField.getText();
+        		String title = bookTitleTextField.getText();
+        		int maxCheckoutLength = 21;
+        		List<Author> authors = new ArrayList<Author>();
+        		Book book = new Book(isbn, title, maxCheckoutLength, authors);
+        		ci.addBook(book);
+        		
+        		tableModel.setRowCount(0); // reset table
+        		BookWindow.this.loadListOfBooks(tableModel);
+        		JOptionPane.showMessageDialog(null, "Added book successfully.");
+        	}
+        });
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
@@ -465,38 +511,27 @@ public class BookWindow extends javax.swing.JFrame {
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-
-        booksListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title", "ISBN Number", "Total Number of Copies", "Copies Available", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Title");
+        tableModel.addColumn("ISBN Number");
+        tableModel.addColumn("Total Number of Copies");
+        tableModel.addColumn("Copies Available");
+        booksListTable.setModel(tableModel);
+        loadListOfBooks(tableModel);
+        
         booksListTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(booksListTable);
         booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (booksListTable.getColumnModel().getColumnCount() > 0) {
-            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-            booksListTable.getColumnModel().getColumn(4).setResizable(false);
-            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
-            booksListTable.getColumnModel().getColumn(5).setResizable(false);
-            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
-        }
+//        if (booksListTable.getColumnModel().getColumnCount() > 0) {
+//            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+//            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+//            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+//            booksListTable.getColumnModel().getColumn(4).setResizable(false);
+//            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+//            booksListTable.getColumnModel().getColumn(5).setResizable(false);
+//            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
+//        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -760,6 +795,7 @@ public class BookWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleTextField;
     private javax.swing.JTable booksListTable;
+    private DefaultTableModel tableModel;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;

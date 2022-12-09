@@ -10,6 +10,7 @@ public interface ControllerInterface {
 	public void login(String id, String password) throws LoginException;
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
+	public List<Book> allBooks();
 	public Book addBookCopyByIsbn(String isbn);
 	public void addBook(Book book);
 	public void addLibraryMember(LibraryMember libraryMember);
