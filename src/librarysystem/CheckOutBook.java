@@ -34,9 +34,7 @@ public class CheckOutBook {
 		String typedmember_ID=scanner.next();
 	    System.out.println("Please enter Book ISBN");
 	    String typedbookIsbn=scanner.next();
-	    boolean flagB=false;
-	    boolean flagM=false;
-	    boolean flagCopy=false;
+	   
 	    DataAccess da=new DataAccessFacade();
 	    Collection<LibraryMember> members=da.readMemberMap().values();
 	    Collection<Book> books = da.readBooksMap().values();

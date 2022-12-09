@@ -24,7 +24,7 @@ import business.LibraryMember;
 import business.SystemController;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
-import librarysystem.LibrarySystem.AddLibMemberListener;
+//import librarysystem.LibrarySystem.AddLibMemberListener;
 
 
 public class AddLibMember extends JFrame  implements LibWindow{
@@ -297,9 +297,9 @@ public class AddLibMember extends JFrame  implements LibWindow{
 			JButton btnback = new JButton("Back");
 			btnback.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					LibrarySystem.hideAllWindows();
+					//LibrarySystem.hideAllWindows();
 					AddLibMember.this.setVisible(false);
-					LibrarySystem.INSTANCE.setVisible(true);
+					//LibrarySystem.INSTANCE.setVisible(true);
 					//MainWindow mWindow = new MainWindow();
 					
 					//mWindow.mframe.setVisible(true);
