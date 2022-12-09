@@ -655,6 +655,11 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         );
 
         libraryMembersTable.setModel(tableModel);
+        libraryMembersTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                libraryMembersTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(libraryMembersTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -1014,6 +1019,18 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         zipCodeTextField.setText("");
         telephoneTextField.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void libraryMembersTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_libraryMembersTableMouseClicked
+        int r = libraryMembersTable.getSelectedRow();
+        memberIdTextField.setText(tableModel.getValueAt(r, 0).toString());
+        firstNameTextField.setText(tableModel.getValueAt(r, 1).toString());
+        lastNameTextField.setText(tableModel.getValueAt(r, 2).toString());
+        telephoneTextField.setText(tableModel.getValueAt(r, 3).toString());
+        streetAddressTextField.setText(tableModel.getValueAt(r, 4).toString());
+        cityTextField.setText(tableModel.getValueAt(r, 5).toString());
+        stateTextField.setText(tableModel.getValueAt(r, 6).toString());
+        zipCodeTextField.setText(tableModel.getValueAt(r, 7).toString());
+    }//GEN-LAST:event_libraryMembersTableMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
