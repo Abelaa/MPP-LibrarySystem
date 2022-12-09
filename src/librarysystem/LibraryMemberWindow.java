@@ -4,6 +4,8 @@
  */
 package librarysystem;
 
+import java.awt.Color;
+
 /**
  *
  * @author GebreegziabherG
@@ -316,10 +318,12 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
+        btnCloseWindow.setBackground(new java.awt.Color(255, 255, 255));
         btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 51));
         btnCloseWindow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCloseWindow.setText("X");
+        btnCloseWindow.setOpaque(true);
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseWindowMouseClicked(evt);
@@ -364,12 +368,28 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         memberIdTextField.setForeground(new java.awt.Color(153, 153, 153));
         memberIdTextField.setText("Enter member ID");
         memberIdTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        memberIdTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                memberIdTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                memberIdTextFieldFocusLost(evt);
+            }
+        });
 
         firstNameLabel.setText("First Name");
 
         firstNameTextField.setForeground(new java.awt.Color(153, 153, 153));
         firstNameTextField.setText("Enter first name");
         firstNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        firstNameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                firstNameTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                firstNameTextFieldFocusLost(evt);
+            }
+        });
 
         lastNameLabel.setText("Last Name");
 
@@ -418,11 +438,6 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         btnUpdate.setText("Update");
 
         btnDelete.setText("Delete");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
 
         btnClear.setText("Clear");
 
@@ -612,10 +627,6 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
     private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
         System.exit(0);
     }//GEN-LAST:event_btnLoginExitMouseClicked
@@ -629,7 +640,8 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnCloseWindow.setBackground(Color.red);
+        btnCloseWindow.setForeground(Color.white);
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseClicked
@@ -693,7 +705,8 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelMoreInfoMouseEntered
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void panelLinkManageBooksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageBooksMouseClicked
@@ -732,75 +745,110 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         navigateToMoreInfoWindow();
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
-    private void navigateToBookWindow(){
+    private void memberIdTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_memberIdTextFieldFocusGained
+        if (memberIdTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entermemberid")) {
+            memberIdTextField.setText("");
+            memberIdTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_memberIdTextFieldFocusGained
+
+    private void memberIdTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_memberIdTextFieldFocusLost
+        if (memberIdTextField.getText().length() == 0 || memberIdTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entermemberid")) {
+            memberIdTextField.setText("Enter member ID");
+            memberIdTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_memberIdTextFieldFocusLost
+
+    private void firstNameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstNameTextFieldFocusGained
+        if (firstNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterfirstname")) {
+            firstNameTextField.setText("");
+            firstNameTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_firstNameTextFieldFocusGained
+
+    private void firstNameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstNameTextFieldFocusLost
+        if (firstNameTextField.getText().length() == 0 || firstNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterfirstname")) {
+            firstNameTextField.setText("Enter first name");
+            firstNameTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_firstNameTextFieldFocusLost
+
+    private void navigateToBookWindow() {
         this.setVisible(false);
         BookWindow bookWindow = new BookWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(bookWindow);
         bookWindow.addMouseListener(frameDragListener);
         bookWindow.addMouseMotionListener(frameDragListener);
         bookWindow.setLocationRelativeTo(null);
         bookWindow.setVisible(true);
     }
-    
-    private void navigateToCheckoutRecordWindow(){
+
+    private void navigateToCheckoutRecordWindow() {
         this.setVisible(false);
         CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
         checkoutRecordWindow.addMouseListener(frameDragListener);
         checkoutRecordWindow.addMouseMotionListener(frameDragListener);
         checkoutRecordWindow.setLocationRelativeTo(null);
         checkoutRecordWindow.setVisible(true);
     }
-    
-    private void navigateToMoreInfoWindow(){
+
+    private void navigateToMoreInfoWindow() {
         this.setVisible(false);
         MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
         moreInfoWindow.addMouseListener(frameDragListener);
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
     }
-    
-    private void linkManageMembersMouseEntered(){
+
+    private void linkManageMembersMouseEntered() {
         panelLinkManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         imgManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         labelManageMembers.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageMembersMouseExited(){
+
+    private void linkManageMembersMouseExited() {
         panelLinkManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         imgManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         labelManageMembers.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkManageBooksMouseEntered(){
+
+    private void linkManageBooksMouseEntered() {
         panelLinkManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         imgManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         labelManageBooks.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageBooksMouseExited(){
+
+    private void linkManageBooksMouseExited() {
         panelLinkManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         imgManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         labelManageBooks.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkCheckoutRecordsMouseEntered(){
+
+    private void linkCheckoutRecordsMouseEntered() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         imgCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         labelCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkCheckoutRecordsMouseExited(){
+
+    private void linkCheckoutRecordsMouseExited() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         imgCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         labelCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkMoreInfoMouseEntered(){
+
+    private void linkMoreInfoMouseEntered() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         imgMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         labelMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkMoreInfoMouseExited(){
+
+    private void linkMoreInfoMouseExited() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
