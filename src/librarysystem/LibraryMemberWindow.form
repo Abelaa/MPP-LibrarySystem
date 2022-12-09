@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="undecorated" type="boolean" value="true"/>
@@ -134,10 +134,6 @@
                   <Color blue="e6" green="aa" red="3c" type="rgb"/>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelLinkManageMembersMouseEntered"/>
-                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelLinkManageMembersMouseExited"/>
-              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -169,10 +165,6 @@
                     </Property>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgManageMembersMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgManageMembersMouseExited"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="labelManageMembers">
                   <Properties>
@@ -188,10 +180,6 @@
                     <Property name="text" type="java.lang.String" value=" Manage Library Members"/>
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelManageMembersMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelManageMembersMouseExited"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -271,6 +259,9 @@
                   <Color blue="e0" green="89" red="35" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelLinkCheckoutRecordsMouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -303,6 +294,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgCheckoutRecordsMouseClicked"/>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgCheckoutRecordsMouseEntered"/>
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgCheckoutRecordsMouseExited"/>
                   </Events>
@@ -322,6 +314,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelCheckoutRecordsMouseClicked"/>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelCheckoutRecordsMouseEntered"/>
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelCheckoutRecordsMouseExited"/>
                   </Events>
@@ -334,6 +327,9 @@
                   <Color blue="e0" green="89" red="35" type="rgb"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelLinkMoreInfoMouseClicked"/>
+              </Events>
 
               <Layout>
                 <DimensionLayout dim="0">
@@ -366,6 +362,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgMoreInfoMouseClicked"/>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgMoreInfoMouseEntered"/>
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="imgMoreInfoMouseExited"/>
                   </Events>
@@ -385,6 +382,7 @@
                     <Property name="opaque" type="boolean" value="true"/>
                   </Properties>
                   <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelMoreInfoMouseClicked"/>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelMoreInfoMouseEntered"/>
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="labelMoreInfoMouseExited"/>
                   </Events>
@@ -431,6 +429,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="btnCloseWindow">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="18" style="0"/>
                 </Property>
@@ -439,6 +440,7 @@
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="text" type="java.lang.String" value="X"/>
+                <Property name="opaque" type="boolean" value="true"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCloseWindowMouseClicked"/>
@@ -611,6 +613,10 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="memberIdTextFieldFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="memberIdTextFieldFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="firstNameLabel">
               <Properties>
@@ -631,6 +637,10 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="firstNameTextFieldFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="firstNameTextFieldFocusLost"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lastNameLabel">
               <Properties>
@@ -802,25 +812,22 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnAdd">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="ADD"/>
+                    <Property name="text" type="java.lang.String" value="Add"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnUpdate">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="UPDATE"/>
+                    <Property name="text" type="java.lang.String" value="Update"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnDelete">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="DELETE"/>
+                    <Property name="text" type="java.lang.String" value="Delete"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
-                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnClear">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CLEAR"/>
+                    <Property name="text" type="java.lang.String" value="Clear"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -853,7 +860,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="libraryMembersTable">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="8" rowCount="4">

@@ -4,16 +4,24 @@
  */
 package librarysystem;
 
+import javax.swing.JOptionPane;
+
+import business.ControllerInterface;
+import business.SystemController;
+
 /**
  *
  * @author GebreegziabherG
  */
 public class Login extends javax.swing.JFrame {
 
+    private ControllerInterface ci;
+
     /**
      * Creates new form Login
      */
     public Login() {
+        ci = new SystemController();
         initComponents();
     }
 
@@ -94,13 +102,16 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Welcome! Let's get started");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Username");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
 
         txtFieldUsername.setBackground(new java.awt.Color(53, 137, 224));
+        txtFieldUsername.setForeground(new java.awt.Color(255, 255, 255));
         txtFieldUsername.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
 
         btnLogin.setBackground(new java.awt.Color(53, 137, 224));
@@ -115,6 +126,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         passwordTextField.setBackground(new java.awt.Color(53, 137, 224));
+        passwordTextField.setForeground(new java.awt.Color(255, 255, 255));
         passwordTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -230,25 +242,31 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        //TODO: 
-        /*
-        1. If ADMIN is logged in, navigate to ---
-        2. If LIBRARIAN is logged in, navigate to ---
-        3. If BOTH is logged in, naviage to ---
-        */
-        this.setVisible(false);
-        LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-                
-        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
-        libraryMember.addMouseListener(frameDragListener);
-        libraryMember.addMouseMotionListener(frameDragListener);
-        libraryMember.setLocationRelativeTo(null);
-        libraryMember.setVisible(true);
+        try {
+            String username = txtFieldUsername.getText();
+            String password = String.valueOf(passwordTextField.getPassword());
+            ci.login(username, password);
+
+            JOptionPane.showMessageDialog(this, SystemController.currentAuth);
+
+            this.setVisible(false);
+            LibraryMemberWindow libraryMember = new LibraryMemberWindow();
+            FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
+            libraryMember.addMouseListener(frameDragListener);
+            libraryMember.addMouseMotionListener(frameDragListener);
+            libraryMember.setLocationRelativeTo(null);
+            libraryMember.setVisible(true);
+
+        } catch (Exception e) {
+            //JOptionPane.showMessageDialog(this, "Invalid Credentials");
+            CustomConfirmationFailedDialog dialog = new CustomConfirmationFailedDialog("Invalid Credentials!");
+            dialog.setVisible(true);
+            
+            //txtFieldUsername.setText("");
+            passwordTextField.setText("");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -277,11 +295,11 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Login login = new Login();
-                
+
                 FrameDragListener frameDragListener = new FrameDragListener(login);
                 login.addMouseListener(frameDragListener);
                 login.addMouseMotionListener(frameDragListener);
-                
+
                 login.setTitle("Login");
                 login.pack();
                 login.setLocationRelativeTo(null);
@@ -289,7 +307,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel btnLoginExit;

@@ -186,7 +186,6 @@ public class LoginWindow extends JFrame implements LibWindow {
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
     			try {
-	 
 	    			ci.login(username.getText(),password.getText());
 
 	    			// redirect

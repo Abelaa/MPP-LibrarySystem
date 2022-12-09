@@ -4,6 +4,10 @@
  */
 package librarysystem;
 
+import java.awt.Color;
+import java.awt.TrayIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author GebreegziabherG
@@ -48,7 +52,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         memberIdLabel = new javax.swing.JLabel();
         memberIdTextField = new javax.swing.JTextField();
         firstNameLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
+        iSBNNumberTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -56,7 +60,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        checkoutRecordsTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -200,28 +204,12 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         imgCheckoutRecords.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgCheckoutRecords.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_to_do_20px.png"))); // NOI18N
         imgCheckoutRecords.setOpaque(true);
-        imgCheckoutRecords.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                imgCheckoutRecordsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                imgCheckoutRecordsMouseExited(evt);
-            }
-        });
 
         labelCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         labelCheckoutRecords.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         labelCheckoutRecords.setForeground(new java.awt.Color(255, 255, 255));
         labelCheckoutRecords.setText(" Checkout Records");
         labelCheckoutRecords.setOpaque(true);
-        labelCheckoutRecords.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                labelCheckoutRecordsMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                labelCheckoutRecordsMouseExited(evt);
-            }
-        });
 
         javax.swing.GroupLayout panelLinkCheckoutRecordsLayout = new javax.swing.GroupLayout(panelLinkCheckoutRecords);
         panelLinkCheckoutRecords.setLayout(panelLinkCheckoutRecordsLayout);
@@ -240,12 +228,20 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         );
 
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkMoreInfoMouseClicked(evt);
+            }
+        });
 
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imgMoreInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_info_20px.png"))); // NOI18N
         imgMoreInfo.setOpaque(true);
         imgMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgMoreInfoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 imgMoreInfoMouseEntered(evt);
             }
@@ -260,6 +256,9 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         labelMoreInfo.setText(" More info");
         labelMoreInfo.setOpaque(true);
         labelMoreInfo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelMoreInfoMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 labelMoreInfoMouseEntered(evt);
             }
@@ -313,10 +312,12 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
+        btnCloseWindow.setBackground(new java.awt.Color(255, 255, 255));
         btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 51));
         btnCloseWindow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCloseWindow.setText("X");
+        btnCloseWindow.setOpaque(true);
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseWindowMouseClicked(evt);
@@ -360,24 +361,30 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
         firstNameLabel.setText("ISBN Number");
 
-        firstNameTextField.setForeground(new java.awt.Color(153, 153, 153));
-        firstNameTextField.setText("Enter ISBN Number");
-        firstNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        iSBNNumberTextField.setForeground(new java.awt.Color(153, 153, 153));
+        iSBNNumberTextField.setText("Enter ISBN Number");
+        iSBNNumberTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnAdd.setText("SEARCH");
+        btnAdd.setText("Search");
 
-        btnUpdate.setText("CHECKOUT");
+        btnUpdate.setText("Checkout");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateMouseClicked(evt);
+            }
+        });
 
-        btnDelete.setText("RETURN");
+        btnDelete.setText("Return");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
 
-        btnClear.setText("CLEAR");
+        btnClear.setText("Clear");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -413,7 +420,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                     .addComponent(memberIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iSBNNumberTextField, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -433,12 +440,12 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(firstNameLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(iSBNNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        checkoutRecordsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -457,15 +464,15 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable1.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(120);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(70);
+        checkoutRecordsTable.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(checkoutRecordsTable);
+        checkoutRecordsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (checkoutRecordsTable.getColumnModel().getColumnCount() > 0) {
+            checkoutRecordsTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            checkoutRecordsTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            checkoutRecordsTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            checkoutRecordsTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+            checkoutRecordsTable.getColumnModel().getColumn(5).setPreferredWidth(70);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -532,11 +539,13 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseEntered
 
     private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnCloseWindow.setBackground(Color.red);
+        btnCloseWindow.setForeground(Color.white);
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseClicked
@@ -575,22 +584,6 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         linkManageBooksMouseExited();
     }//GEN-LAST:event_labelManageBooksMouseExited
 
-    private void imgCheckoutRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgCheckoutRecordsMouseEntered
-        linkCheckoutRecordsMouseEntered();
-    }//GEN-LAST:event_imgCheckoutRecordsMouseEntered
-
-    private void imgCheckoutRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgCheckoutRecordsMouseExited
-        linkCheckoutRecordsMouseExited();
-    }//GEN-LAST:event_imgCheckoutRecordsMouseExited
-
-    private void labelCheckoutRecordsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCheckoutRecordsMouseExited
-        linkCheckoutRecordsMouseExited();
-    }//GEN-LAST:event_labelCheckoutRecordsMouseExited
-
-    private void labelCheckoutRecordsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelCheckoutRecordsMouseEntered
-        linkCheckoutRecordsMouseEntered();
-    }//GEN-LAST:event_labelCheckoutRecordsMouseEntered
-
     private void imgMoreInfoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgMoreInfoMouseEntered
         linkMoreInfoMouseEntered();
     }//GEN-LAST:event_imgMoreInfoMouseEntered
@@ -624,7 +617,8 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelManageMembersMouseExited
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void panelLinkManageMembersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageMembersMouseClicked
@@ -650,73 +644,112 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     private void labelManageBooksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelManageBooksMouseClicked
         navigateToBookWindow();
     }//GEN-LAST:event_labelManageBooksMouseClicked
-    private void navigateToLibraryMemberWindow(){
+
+    private void panelLinkMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_panelLinkMoreInfoMouseClicked
+
+    private void imgMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_imgMoreInfoMouseClicked
+
+    private void labelMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelMoreInfoMouseClicked
+        navigateToMoreInfoWindow();
+    }//GEN-LAST:event_labelMoreInfoMouseClicked
+
+    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        String input = JOptionPane.showInputDialog(this, "Number of checkout days", "Checking out book", JOptionPane.QUESTION_MESSAGE);
+        if (input != null) {
+            try {
+                int numberOfDays = Integer.parseInt(input);
+                //Start checkout book logic here
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showConfirmDialog(this, "Error Message! Book is not checked out.", "Invalid Input", JOptionPane.DEFAULT_OPTION);
+            }
+        }
+    }//GEN-LAST:event_btnUpdateMouseClicked
+    private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
         libraryMember.addMouseListener(frameDragListener);
         libraryMember.addMouseMotionListener(frameDragListener);
         libraryMember.setLocationRelativeTo(null);
         libraryMember.setVisible(true);
     }
-    
-    private void navigateToBookWindow(){
+
+    private void navigateToBookWindow() {
         this.setVisible(false);
         BookWindow bookWindow = new BookWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(bookWindow);
         bookWindow.addMouseListener(frameDragListener);
         bookWindow.addMouseMotionListener(frameDragListener);
         bookWindow.setLocationRelativeTo(null);
         bookWindow.setVisible(true);
     }
-    
-    private void navigateToCheckoutWindow(){
-        
+
+    private void navigateToMoreInfoWindow() {
+        this.setVisible(false);
+        MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
+
+        FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
+        moreInfoWindow.addMouseListener(frameDragListener);
+        moreInfoWindow.addMouseMotionListener(frameDragListener);
+        moreInfoWindow.setLocationRelativeTo(null);
+        moreInfoWindow.setVisible(true);
     }
-    
-    private void linkManageMembersMouseEntered(){
+
+    private void linkManageMembersMouseEntered() {
         panelLinkManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         imgManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         labelManageMembers.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageMembersMouseExited(){
+
+    private void linkManageMembersMouseExited() {
         panelLinkManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         imgManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         labelManageMembers.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkManageBooksMouseEntered(){
+
+    private void linkManageBooksMouseEntered() {
         panelLinkManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         imgManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         labelManageBooks.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageBooksMouseExited(){
+
+    private void linkManageBooksMouseExited() {
         panelLinkManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         imgManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         labelManageBooks.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkCheckoutRecordsMouseEntered(){
+
+    private void linkCheckoutRecordsMouseEntered() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         imgCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         labelCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkCheckoutRecordsMouseExited(){
+
+    private void linkCheckoutRecordsMouseExited() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         imgCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         labelCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkMoreInfoMouseEntered(){
+
+    private void linkMoreInfoMouseEntered() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         imgMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         labelMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkMoreInfoMouseExited(){
+
+    private void linkMoreInfoMouseExited() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -731,33 +764,29 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CheckoutRecordWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CheckoutRecordWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CheckoutRecordWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CheckoutRecordWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CheckoutRecordWindow libraryMember = new CheckoutRecordWindow();
-                
-                FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
-                libraryMember.addMouseListener(frameDragListener);
-                libraryMember.addMouseMotionListener(frameDragListener);
-                libraryMember.setLocationRelativeTo(null);
-                libraryMember.setVisible(true);
+                CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
+
+                FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
+                checkoutRecordWindow.addMouseListener(frameDragListener);
+                checkoutRecordWindow.addMouseMotionListener(frameDragListener);
+
+                checkoutRecordWindow.setTitle("Login");
+                checkoutRecordWindow.pack();
+                checkoutRecordWindow.setLocationRelativeTo(null);
+                checkoutRecordWindow.setVisible(true);
             }
         });
     }
@@ -768,9 +797,10 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JTable checkoutRecordsTable;
     private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel headingLabel;
+    private javax.swing.JTextField iSBNNumberTextField;
     private javax.swing.JLabel imgCheckoutRecords;
     private javax.swing.JLabel imgManageBooks;
     private javax.swing.JLabel imgManageMembers;
@@ -783,7 +813,6 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelCheckoutRecords;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
