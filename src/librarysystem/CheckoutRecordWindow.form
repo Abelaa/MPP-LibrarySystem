@@ -585,17 +585,20 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnAdd">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="SEARCH"/>
+                    <Property name="text" type="java.lang.String" value="Search"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnUpdate">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CHECKOUT"/>
+                    <Property name="text" type="java.lang.String" value="Checkout"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnUpdateMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnDelete">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="RETURN"/>
+                    <Property name="text" type="java.lang.String" value="Return"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteActionPerformed"/>
@@ -603,7 +606,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnClear">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="CLEAR"/>
+                    <Property name="text" type="java.lang.String" value="Clear"/>
                   </Properties>
                 </Component>
               </SubComponents>

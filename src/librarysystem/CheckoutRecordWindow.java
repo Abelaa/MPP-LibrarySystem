@@ -4,6 +4,8 @@
  */
 package librarysystem;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author GebreegziabherG
@@ -361,18 +363,23 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnAdd.setText("SEARCH");
+        btnAdd.setText("Search");
 
-        btnUpdate.setText("CHECKOUT");
+        btnUpdate.setText("Checkout");
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateMouseClicked(evt);
+            }
+        });
 
-        btnDelete.setText("RETURN");
+        btnDelete.setText("Return");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeleteActionPerformed(evt);
             }
         });
 
-        btnClear.setText("CLEAR");
+        btnClear.setText("Clear");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -641,6 +648,10 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     private void labelMoreInfoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelMoreInfoMouseClicked
         navigateToMoreInfoWindow();
     }//GEN-LAST:event_labelMoreInfoMouseClicked
+
+    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
+        JOptionPane.showInputDialog("What do you want to do?");
+    }//GEN-LAST:event_btnUpdateMouseClicked
     private void navigateToLibraryMemberWindow(){
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();

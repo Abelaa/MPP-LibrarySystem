@@ -15,16 +15,16 @@ import business.SystemController;
  */
 public class Login extends javax.swing.JFrame {
 
-	private ControllerInterface ci;
-	
+    private ControllerInterface ci;
+
     /**
      * Creates new form Login
      */
     public Login() {
-    	ci = new SystemController();
+        ci = new SystemController();
         initComponents();
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -238,33 +238,29 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        //TODO: 
-        /*
-        1. If ADMIN is logged in, navigate to ---
-        2. If LIBRARIAN is logged in, navigate to ---
-        3. If BOTH is logged in, naviage to ---
-        */
-    	
-    	try {
-    		String username = txtFieldUsername.getText();
-    		String password = String.valueOf(passwordTextField.getPassword());
-			ci.login(username, password);
+        try {
+            String username = txtFieldUsername.getText();
+            String password = String.valueOf(passwordTextField.getPassword());
+            ci.login(username, password);
 
-			JOptionPane.showMessageDialog(this, SystemController.currentAuth);
-    	
-	        this.setVisible(false);
-	        LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-	        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
-	        libraryMember.addMouseListener(frameDragListener);
-	        libraryMember.addMouseMotionListener(frameDragListener);
-	        libraryMember.setLocationRelativeTo(null);
-	        libraryMember.setVisible(true);
+            JOptionPane.showMessageDialog(this, SystemController.currentAuth);
 
-		} catch(Exception e) {
-			JOptionPane.showMessageDialog(this,"Invalid Credentials");
-			txtFieldUsername.setText("");
-			passwordTextField.setText("");
-		}
+            this.setVisible(false);
+            LibraryMemberWindow libraryMember = new LibraryMemberWindow();
+            FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
+            libraryMember.addMouseListener(frameDragListener);
+            libraryMember.addMouseMotionListener(frameDragListener);
+            libraryMember.setLocationRelativeTo(null);
+            libraryMember.setVisible(true);
+
+        } catch (Exception e) {
+            //JOptionPane.showMessageDialog(this, "Invalid Credentials");
+            CustomConfirmationFailedDialog dialog = new CustomConfirmationFailedDialog("Invalid Credentials!");
+            dialog.setVisible(true);
+            
+            txtFieldUsername.setText("");
+            passwordTextField.setText("");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     public static void main(String args[]) {
@@ -295,11 +291,11 @@ public class Login extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Login login = new Login();
-                
+
                 FrameDragListener frameDragListener = new FrameDragListener(login);
                 login.addMouseListener(frameDragListener);
                 login.addMouseMotionListener(frameDragListener);
-                
+
                 login.setTitle("Login");
                 login.pack();
                 login.setLocationRelativeTo(null);
@@ -307,7 +303,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel btnLoginExit;
