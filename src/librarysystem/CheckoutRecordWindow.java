@@ -4,6 +4,8 @@
  */
 package librarysystem;
 
+import java.awt.Color;
+import java.awt.TrayIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -310,10 +312,12 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
+        btnCloseWindow.setBackground(new java.awt.Color(255, 255, 255));
         btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 51));
         btnCloseWindow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCloseWindow.setText("X");
+        btnCloseWindow.setOpaque(true);
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseWindowMouseClicked(evt);
@@ -366,6 +370,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         btnAdd.setText("Search");
 
         btnUpdate.setText("Checkout");
+        btnUpdate.setEnabled(false);
         btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnUpdateMouseClicked(evt);
@@ -534,11 +539,13 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseEntered
 
     private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnCloseWindow.setBackground(Color.red);
+        btnCloseWindow.setForeground(Color.white);
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseClicked
@@ -610,7 +617,8 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelManageMembersMouseExited
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void panelLinkManageMembersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageMembersMouseClicked
@@ -650,80 +658,137 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
-        JOptionPane.showInputDialog("What do you want to do?");
+        String input = JOptionPane.showInputDialog(this, "Number of checkout days", "Checking out book", JOptionPane.QUESTION_MESSAGE);
+        if (input != null) {
+            try {
+                int numberOfDays = Integer.parseInt(input);
+                //Start checkout book logic here
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showConfirmDialog(this, "Error Message! Book is not checked out.", "Invalid Input", JOptionPane.DEFAULT_OPTION);
+            }
+        }
     }//GEN-LAST:event_btnUpdateMouseClicked
-    private void navigateToLibraryMemberWindow(){
+    private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
         libraryMember.addMouseListener(frameDragListener);
         libraryMember.addMouseMotionListener(frameDragListener);
         libraryMember.setLocationRelativeTo(null);
         libraryMember.setVisible(true);
     }
-    
-    private void navigateToBookWindow(){
+
+    private void navigateToBookWindow() {
         this.setVisible(false);
         BookWindow bookWindow = new BookWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(bookWindow);
         bookWindow.addMouseListener(frameDragListener);
         bookWindow.addMouseMotionListener(frameDragListener);
         bookWindow.setLocationRelativeTo(null);
         bookWindow.setVisible(true);
     }
-    
-    private void navigateToMoreInfoWindow(){
+
+    private void navigateToMoreInfoWindow() {
         this.setVisible(false);
         MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
         moreInfoWindow.addMouseListener(frameDragListener);
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
     }
-    
-    private void linkManageMembersMouseEntered(){
+
+    private void linkManageMembersMouseEntered() {
         panelLinkManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         imgManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         labelManageMembers.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageMembersMouseExited(){
+
+    private void linkManageMembersMouseExited() {
         panelLinkManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         imgManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         labelManageMembers.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkManageBooksMouseEntered(){
+
+    private void linkManageBooksMouseEntered() {
         panelLinkManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         imgManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         labelManageBooks.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageBooksMouseExited(){
+
+    private void linkManageBooksMouseExited() {
         panelLinkManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         imgManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         labelManageBooks.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkCheckoutRecordsMouseEntered(){
+
+    private void linkCheckoutRecordsMouseEntered() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         imgCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         labelCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkCheckoutRecordsMouseExited(){
+
+    private void linkCheckoutRecordsMouseExited() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         imgCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         labelCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkMoreInfoMouseEntered(){
+
+    private void linkMoreInfoMouseEntered() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         imgMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         labelMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkMoreInfoMouseExited(){
+
+    private void linkMoreInfoMouseExited() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
+    }
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
+
+                FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
+                checkoutRecordWindow.addMouseListener(frameDragListener);
+                checkoutRecordWindow.addMouseMotionListener(frameDragListener);
+
+                checkoutRecordWindow.setTitle("Login");
+                checkoutRecordWindow.pack();
+                checkoutRecordWindow.setLocationRelativeTo(null);
+                checkoutRecordWindow.setVisible(true);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

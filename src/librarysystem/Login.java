@@ -102,13 +102,16 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Welcome! Let's get started");
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Username");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Password");
 
         txtFieldUsername.setBackground(new java.awt.Color(53, 137, 224));
+        txtFieldUsername.setForeground(new java.awt.Color(255, 255, 255));
         txtFieldUsername.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
 
         btnLogin.setBackground(new java.awt.Color(53, 137, 224));
@@ -123,6 +126,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         passwordTextField.setBackground(new java.awt.Color(53, 137, 224));
+        passwordTextField.setForeground(new java.awt.Color(255, 255, 255));
         passwordTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -258,7 +262,7 @@ public class Login extends javax.swing.JFrame {
             CustomConfirmationFailedDialog dialog = new CustomConfirmationFailedDialog("Invalid Credentials!");
             dialog.setVisible(true);
             
-            txtFieldUsername.setText("");
+            //txtFieldUsername.setText("");
             passwordTextField.setText("");
         }
     }//GEN-LAST:event_btnLoginActionPerformed
