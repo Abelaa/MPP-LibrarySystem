@@ -33,10 +33,11 @@ public class BookWindow extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void loadListOfBooks(DefaultTableModel tableModel) {
+    public void loadListOfBooks() {
+    	tableModel.setRowCount(0);
     	List<Book> books = ci.allBooks();
     	for (Book book : books) {
-            tableModel.insertRow(
+            this.tableModel.insertRow(
             	tableModel.getRowCount(), 
         		new Object[] {
     				book.getTitle(), 
@@ -90,18 +91,31 @@ public class BookWindow extends javax.swing.JFrame {
         		String isbn = iSBNNumberTextField.getText();
         		String title = bookTitleTextField.getText();
         		int maxCheckoutLength = 21;
-        		List<Author> authors = new ArrayList<Author>();
-        		Book book = new Book(isbn, title, maxCheckoutLength, authors);
+        		Book book = new Book(isbn, title, maxCheckoutLength);
         		ci.addBook(book);
         		
-        		tableModel.setRowCount(0); // reset table
-        		BookWindow.this.loadListOfBooks(tableModel);
+        		BookWindow.this.loadListOfBooks();
         		JOptionPane.showMessageDialog(null, "Added book successfully.");
         	}
         });
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnClear = new javax.swing.JButton();
+        btnAddCopy = new javax.swing.JButton();
+        btnAddCopy.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+                int selectedRow = booksListTable.getSelectedRow();
+                if (selectedRow == -1) {
+                	JOptionPane.showMessageDialog(null, "Please select a row from the list of books");
+                	return;
+                }
+
+                String isbn = tableModel.getValueAt(selectedRow, 1).toString();
+        		ci.addBookCopyByIsbn(isbn);
+        		loadListOfBooks();
+
+            	JOptionPane.showMessageDialog(null, "Copy added successully.");
+        	}
+        });
         btnManageAuthors = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -426,7 +440,7 @@ public class BookWindow extends javax.swing.JFrame {
             }
         });
 
-        btnClear.setText("Clear");
+        btnAddCopy.setText("Add Copy");
 
         btnManageAuthors.setText("Manage Authors");
         btnManageAuthors.addActionListener(new java.awt.event.ActionListener() {
@@ -445,7 +459,7 @@ public class BookWindow extends javax.swing.JFrame {
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -459,7 +473,7 @@ public class BookWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnClear)
+                .addComponent(btnAddCopy)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnManageAuthors)
                 .addContainerGap(36, Short.MAX_VALUE))
@@ -518,20 +532,11 @@ public class BookWindow extends javax.swing.JFrame {
         tableModel.addColumn("Total Number of Copies");
         tableModel.addColumn("Copies Available");
         booksListTable.setModel(tableModel);
-        loadListOfBooks(tableModel);
+        loadListOfBooks();
         
         booksListTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(booksListTable);
         booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-//        if (booksListTable.getColumnModel().getColumnCount() > 0) {
-//            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-//            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-//            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-//            booksListTable.getColumnModel().getColumn(4).setResizable(false);
-//            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
-//            booksListTable.getColumnModel().getColumn(5).setResizable(false);
-//            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
-//        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -709,8 +714,15 @@ public class BookWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
     private void btnManageAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageAuthorsActionPerformed
+        int selectedRow = booksListTable.getSelectedRow();
+        if (selectedRow == -1) {
+        	JOptionPane.showMessageDialog(this, "Please select a row from the list of books");
+        	return;
+        }
         this.setVisible(false);
-        BookAuthorWindow bookAuthorWindow = new BookAuthorWindow();
+
+        Book selectedBook = ci.allBooks().get(selectedRow);
+        BookAuthorWindow bookAuthorWindow = new BookAuthorWindow(selectedBook);
         
         FrameDragListener frameDragListener = new FrameDragListener(bookAuthorWindow);
         bookAuthorWindow.addMouseListener(frameDragListener);
@@ -797,7 +809,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JTable booksListTable;
     private DefaultTableModel tableModel;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnAddCopy;
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnManageAuthors;

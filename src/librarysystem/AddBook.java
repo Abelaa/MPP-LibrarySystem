@@ -100,11 +100,6 @@ public class AddBook extends JFrame implements LibWindow {
 	
 	private void addBookButtonListener(JButton btn) {
 		btn.addActionListener(evt -> {
-			List<Author> authors = new ArrayList();
-			Address addr = new Address("street", "city", "state", "zip");
-			Address addr2 = new Address("street2", "city2", "state2", "zip2");
-			authors.add(new Author("fn", "ln", "T", addr, "bio"));
-			authors.add(new Author("fn2", "ln2", "T2", addr2, "bio2"));
 			
 			int numCopies;
 			try {
@@ -116,8 +111,7 @@ public class AddBook extends JFrame implements LibWindow {
 			Book book = new Book(
 					tfIsbn.getText(), 
 					tfTitle.getText(),
-					numCopies,
-					authors);
+					numCopies);
 			ci.addBook(book);
 
 			JOptionPane.showMessageDialog(this, "Added successfully" + "\n\n" + ci.allBookIds());

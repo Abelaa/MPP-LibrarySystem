@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
 
 /**
  *
@@ -247,7 +248,11 @@ public class Login extends javax.swing.JFrame {
             String password = String.valueOf(passwordTextField.getPassword());
             ci.login(username, password);
 
-            JOptionPane.showMessageDialog(this, SystemController.currentAuth);
+            Auth auth = SystemController.currentAuth;
+            JOptionPane.showMessageDialog(this, 
+        		"Welcome " 
+        		+ (auth == Auth.BOTH ? "ADMIN/LIBRARIAN" : auth)
+        	);
 
             this.setVisible(false);
             LibraryMemberWindow libraryMember = new LibraryMemberWindow();
