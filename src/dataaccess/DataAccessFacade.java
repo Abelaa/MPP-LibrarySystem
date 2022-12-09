@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,8 +32,25 @@ public class DataAccessFacade implements DataAccess {
 	
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
+	public LibraryMember getLibraryMemberById(String memberId) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		return mems.get(memberId);
+	}
+	
+	public Book getBookByIsbn(String isbn) {
+		HashMap<String, Book> books = readBooksMap();
+		return books.get(isbn);
+	}
+	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		String memberId = member.getMemberId();
+		mems.put(memberId, member);
+		saveToStorage(StorageType.MEMBERS, mems);	
+	}
+	
+	public void updateMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);

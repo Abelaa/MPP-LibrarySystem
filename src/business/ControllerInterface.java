@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import business.Book;
@@ -14,4 +15,7 @@ public interface ControllerInterface {
 	public Book addBookCopyByIsbn(String isbn);
 	public void addBook(Book book);
 	public void addLibraryMember(LibraryMember libraryMember);
+	public void createCheckoutRecordEntry(String memberId, String isbn);
+	public List<CheckoutEntry> allCheckoutEntries();
+	public String validateMemberIDAndISBN(String memberId, String isbn);
 }

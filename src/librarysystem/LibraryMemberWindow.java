@@ -874,7 +874,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill all the fields");
         } else {
             Address address = new Address(street, city, state, zipCode);
-            LibraryMember libraryMember = new LibraryMember(memberID, firstName, lastName, telephone, address, null);
+            LibraryMember libraryMember = new LibraryMember(memberID, firstName, lastName, telephone, address);
             controllerInterface.addLibraryMember(libraryMember);
             tableModel.addRow(new String[]{memberID, firstName, lastName, telephone, street, state, city, zipCode});
             CustomConfirmationSuccessDialog.getCustomConfirmationSuccessDialog("Added Successfully");

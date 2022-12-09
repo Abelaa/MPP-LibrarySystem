@@ -6,19 +6,51 @@ package librarysystem;
 
 import java.awt.Color;
 import java.awt.TrayIcon;
+import java.util.List;
+
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+import business.Book;
+import business.CheckoutEntry;
+import business.ControllerInterface;
+import business.SystemController;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  *
  * @author GebreegziabherG
  */
 public class CheckoutRecordWindow extends javax.swing.JFrame {
+	private ControllerInterface ci;
 
     /**
      * Creates new form LibraryMemberWindow
      */
     public CheckoutRecordWindow() {
+    	ci = new SystemController();
         initComponents();
+    }
+    
+    public void loadListOfCheckoutEntries() {
+    	tableModel.setRowCount(0);
+    	List<CheckoutEntry> entries = ci.allCheckoutEntries();
+    	for (CheckoutEntry entry : entries) {
+            this.tableModel.insertRow(
+            	tableModel.getRowCount(), 
+        		new Object[] {
+        			entry.getCheckoutRecord().getLibraryMember().getMemberId(),
+        			entry.getCheckoutRecord().getLibraryMember().getFirstName(),
+        			entry.getCheckoutRecord().getLibraryMember().getLastName(),
+        			entry.getBookCopy().getBook().getTitle(),
+        			entry.getBookCopy().getBook().getIsbn(),
+        			entry.getBookCopy().getCopyNum(),
+        			entry.getCheckoutDate(),
+        			entry.getDueDate()
+    			}
+            );
+    	}
     }
 
     /**
@@ -54,7 +86,23 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         firstNameLabel = new javax.swing.JLabel();
         iSBNNumberTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        btnUpdate = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnCheckout = new javax.swing.JButton();
+        btnCheckout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		String memberId = memberIdTextField.getText();
+        		String isbn = iSBNNumberTextField.getText();
+        		
+        		String errorMessage = ci.validateMemberIDAndISBN(memberId, isbn);
+        		if (errorMessage != "") {
+        			JOptionPane.showMessageDialog(null, errorMessage);
+        			return;
+        		}
+        		
+        		ci.createCheckoutRecordEntry(memberId, isbn);
+        		CheckoutRecordWindow.this.loadListOfCheckoutEntries();
+        	}
+        });
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
@@ -366,13 +414,10 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnUpdate.setText("Checkout");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUpdateMouseClicked(evt);
-            }
-        });
+        btnAdd.setText("Search");
+
+        btnCheckout.setText("Checkout");
+
 
         btnDelete.setText("Return");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -387,15 +432,18 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCheckout, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
             .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
+                .addGap(14, 14, 14)
+                .addComponent(btnAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCheckout)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -439,25 +487,18 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        checkoutRecordsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Member ID", "First Name", "Last Name", "Book Title", "ISBN Number", "Copy Number", "Checkout Date", "Due Date"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Member ID");
+        tableModel.addColumn("First Name");
+		tableModel.addColumn("Last Name");
+		tableModel.addColumn("Book Title");
+		tableModel.addColumn("ISBN Number");
+		tableModel.addColumn("Copy Number");
+		tableModel.addColumn("Checkout Date");
+		tableModel.addColumn("Due Date");
+        checkoutRecordsTable.setModel(tableModel);
+        loadListOfCheckoutEntries();
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
         checkoutRecordsTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(checkoutRecordsTable);
         checkoutRecordsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -651,18 +692,6 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         navigateToMoreInfoWindow();
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
-    private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
-        String input = JOptionPane.showInputDialog(this, "Number of checkout days", "Checking out book", JOptionPane.QUESTION_MESSAGE);
-        if (input != null) {
-            try {
-                int numberOfDays = Integer.parseInt(input);
-                //Start checkout book logic here
-
-            } catch (NumberFormatException ex) {
-                JOptionPane.showConfirmDialog(this, "Error Message! Book is not checked out.", "Invalid Input", JOptionPane.DEFAULT_OPTION);
-            }
-        }
-    }//GEN-LAST:event_btnUpdateMouseClicked
     private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -786,10 +815,13 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
+    private DefaultTableModel tableModel;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnCheckout;
     private javax.swing.JTable checkoutRecordsTable;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel headingLabel;

@@ -1,6 +1,8 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,7 +13,8 @@ import dataaccess.User;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-	
+
+	@Override
 	public void login(String id, String password) throws LoginException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
@@ -69,6 +72,51 @@ public class SystemController implements ControllerInterface {
 		da.updateBook(book);
 		return book;
 	}
-
 	
+	@Override
+	public void createCheckoutRecordEntry(String memberId, String isbn) {
+		// Call this method, only after validation
+		DataAccess da = new DataAccessFacade();
+		LibraryMember libraryMember = da.getLibraryMemberById(memberId);
+		Book book = da.getBookByIsbn(isbn);
+		
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		LocalDate checkoutDate = LocalDate.now();
+		LocalDate dueDate = LocalDate.now().plusDays(book.getMaxCheckoutLength());
+
+		libraryMember.getCheckoutRecord().addCheckoutEntry(bookCopy, checkoutDate, dueDate);
+		bookCopy.changeAvailability();
+		
+		da.updateMember(libraryMember);
+		da.updateBook(book);
+	}
+	
+	@Override
+	public List<CheckoutEntry> allCheckoutEntries() {
+		DataAccess da = new DataAccessFacade();
+		Collection<LibraryMember> allMembers = da.readMemberMap().values();
+		ArrayList<CheckoutEntry> allEntries = new ArrayList();
+		for (LibraryMember member : allMembers) {
+			List<CheckoutEntry> memberCheckoutEntries = member.getCheckoutRecord().getCheckoutEntries();
+			allEntries.addAll(memberCheckoutEntries);
+		}
+		return allEntries;
+	}
+	
+	@Override
+	public String validateMemberIDAndISBN(String memberId, String isbn) {
+		DataAccess da = new DataAccessFacade();
+		String message = "";
+
+		LibraryMember libraryMember = da.getLibraryMemberById(memberId);
+		if (libraryMember == null) return "Library member doesn't exist";
+
+		Book book = da.getBookByIsbn(isbn);
+		if (book == null) return "Book doesn't exist";
+
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		if (bookCopy == null) return "Book is not available";
+		
+		return message;
+	}
 }
