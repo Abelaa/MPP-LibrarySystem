@@ -1,10 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package librarysystem;
 
+import business.Address;
+import business.ControllerInterface;
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import dataaccess.DataAccess;
+import dataaccess.DataAccessFacade;
+import business.LibraryMember;
+import business.SystemController;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,11 +16,39 @@ import java.awt.Color;
  */
 public class LibraryMemberWindow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LibraryMember
-     */
+    private ControllerInterface controllerInterface;
+    private DataAccess dataAccess;
+    private DefaultTableModel tableModel;
+
     public LibraryMemberWindow() {
+        init();
         initComponents();
+    }
+
+    private void init() {
+        controllerInterface = new SystemController();
+        dataAccess = new DataAccessFacade();
+
+        String[][] data = new String[dataAccess.readMemberMap().values().size()][8];
+        int index = 0;
+        for (LibraryMember member : dataAccess.readMemberMap().values()) {
+            int columnNumber = 0;
+            data[index][columnNumber++] = member.getMemberId();
+            data[index][columnNumber++] = member.getFirstName();
+            data[index][columnNumber++] = member.getLastName();
+            data[index][columnNumber++] = member.getTelephone();
+            data[index][columnNumber++] = member.getAddress().getStreet();
+            data[index][columnNumber++] = member.getAddress().getCity();
+            data[index][columnNumber++] = member.getAddress().getState();
+            data[index][columnNumber++] = member.getAddress().getZip();
+
+            index++;
+        }
+        tableModel = new DefaultTableModel(data,
+                new String[]{
+                    "Member ID", "First Name", "Last Name", "Telephone", "Street Address", "State", "City", "Zip Code"
+                }
+        );
     }
 
     /**
@@ -396,12 +428,28 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         lastNameTextField.setForeground(new java.awt.Color(153, 153, 153));
         lastNameTextField.setText("Enter last name");
         lastNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        lastNameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                lastNameTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lastNameTextFieldFocusLost(evt);
+            }
+        });
 
         telephoneLabel.setText("Telephone");
 
         telephoneTextField.setForeground(new java.awt.Color(153, 153, 153));
         telephoneTextField.setText("Enter telephone number");
         telephoneTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        telephoneTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                telephoneTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                telephoneTextFieldFocusLost(evt);
+            }
+        });
 
         addressLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         addressLabel.setText("Address");
@@ -412,34 +460,86 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         streetAddressTextField.setForeground(new java.awt.Color(153, 153, 153));
         streetAddressTextField.setText("Enter street address");
         streetAddressTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        streetAddressTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                streetAddressTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                streetAddressTextFieldFocusLost(evt);
+            }
+        });
 
         stateLabel.setText("State");
 
         stateTextField.setForeground(new java.awt.Color(153, 153, 153));
         stateTextField.setText("Enter state");
         stateTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        stateTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                stateTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                stateTextFieldFocusLost(evt);
+            }
+        });
 
         cityLabel.setText("City");
 
         cityTextField.setForeground(new java.awt.Color(153, 153, 153));
         cityTextField.setText("Enter city");
         cityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        cityTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                cityTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                cityTextFieldFocusLost(evt);
+            }
+        });
 
         zipCodeLabel.setText("Zip Code");
 
         zipCodeTextField.setForeground(new java.awt.Color(153, 153, 153));
         zipCodeTextField.setText("Enter zip code");
         zipCodeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        zipCodeTextField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                zipCodeTextFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                zipCodeTextFieldFocusLost(evt);
+            }
+        });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -554,25 +654,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
         );
 
-        libraryMembersTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Member ID", "First Name", "Last Name", "Telephone", "Street Address", "State", "City", "Zip Code"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        libraryMembersTable.setModel(tableModel);
         jScrollPane1.setViewportView(libraryMembersTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -772,6 +854,215 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
             firstNameTextField.setForeground(new Color(153, 153, 153));
         }
     }//GEN-LAST:event_firstNameTextFieldFocusLost
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String memberID = memberIdTextField.getText();
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String telephone = telephoneTextField.getText();
+        String street = streetAddressTextField.getText();
+        String city = cityTextField.getText();
+        String state = stateTextField.getText();
+        String zipCode = zipCodeTextField.getText();
+        if (memberID.equals("") || firstName.equals("") || lastName.equals("") || telephone.equals("")
+                || street.equals("") || city.equals("") || state.equals("") || zipCode.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+        } else {
+            Address address = new Address(street, city, state, zipCode);
+            LibraryMember libraryMember = new LibraryMember(memberID, firstName, lastName, telephone, address, null);
+            controllerInterface.addLibraryMember(libraryMember);
+            tableModel.addRow(new String[]{memberID, firstName, lastName, telephone, street, state, city, zipCode});
+            CustomConfirmationSuccessDialog.getCustomConfirmationSuccessDialog("Added Successfully");
+
+            memberIdTextField.setText("");
+            firstNameTextField.setText("");
+            lastNameTextField.setText("");
+            telephoneTextField.setText("");
+            streetAddressTextField.setText("");
+            cityTextField.setText("");
+            stateTextField.setText("");
+            zipCodeTextField.setText("");
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void lastNameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameTextFieldFocusGained
+        if (lastNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterlastname")) {
+            lastNameTextField.setText("");
+            lastNameTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_lastNameTextFieldFocusGained
+
+    private void lastNameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameTextFieldFocusLost
+        if (lastNameTextField.getText().length() == 0 || lastNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterlastname")) {
+            lastNameTextField.setText("Enter last name");
+            lastNameTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_lastNameTextFieldFocusLost
+
+    private void telephoneTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_telephoneTextFieldFocusGained
+        if (telephoneTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entertelephonenumber")) {
+            telephoneTextField.setText("");
+            telephoneTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_telephoneTextFieldFocusGained
+
+    private void telephoneTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_telephoneTextFieldFocusLost
+        if (telephoneTextField.getText().length() == 0 || telephoneTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entertelephonenumber")) {
+            telephoneTextField.setText("Enter telephone number");
+            telephoneTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_telephoneTextFieldFocusLost
+
+    private void streetAddressTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_streetAddressTextFieldFocusGained
+        if (streetAddressTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstreetaddress")) {
+            streetAddressTextField.setText("");
+            streetAddressTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_streetAddressTextFieldFocusGained
+
+    private void streetAddressTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_streetAddressTextFieldFocusLost
+        if (streetAddressTextField.getText().length() == 0 || streetAddressTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstreetaddress")) {
+            streetAddressTextField.setText("Enter street address");
+            streetAddressTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_streetAddressTextFieldFocusLost
+
+    private void stateTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_stateTextFieldFocusGained
+        if (stateTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstate")) {
+            stateTextField.setText("");
+            stateTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_stateTextFieldFocusGained
+
+    private void stateTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_stateTextFieldFocusLost
+        if (stateTextField.getText().length() == 0 || stateTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstate")) {
+            stateTextField.setText("Enter state");
+            stateTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_stateTextFieldFocusLost
+
+    private void cityTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cityTextFieldFocusGained
+        if (cityTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entercity")) {
+            cityTextField.setText("");
+            cityTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_cityTextFieldFocusGained
+
+    private void cityTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cityTextFieldFocusLost
+        if (cityTextField.getText().length() == 0 || cityTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entercity")) {
+            cityTextField.setText("Enter city");
+            cityTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_cityTextFieldFocusLost
+
+    private void zipCodeTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_zipCodeTextFieldFocusGained
+        if (zipCodeTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterzipcode")) {
+            zipCodeTextField.setText("");
+            zipCodeTextField.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_zipCodeTextFieldFocusGained
+
+    private void zipCodeTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_zipCodeTextFieldFocusLost
+        if (zipCodeTextField.getText().length() == 0 || zipCodeTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterzipcode")) {
+            zipCodeTextField.setText("Enter zip code");
+            zipCodeTextField.setForeground(new Color(153, 153, 153));
+        }
+    }//GEN-LAST:event_zipCodeTextFieldFocusLost
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int row = libraryMembersTable.getSelectedRow();
+        if (row >= 0) {
+            tableModel.removeRow(row);
+            memberIdTextField.setText("");
+            firstNameTextField.setText("");
+            lastNameTextField.setText("");
+            streetAddressTextField.setText("");
+            cityTextField.setText("");
+            stateTextField.setText("");
+            zipCodeTextField.setText("");
+            telephoneTextField.setText("");
+            JOptionPane.showMessageDialog(null, "Deleted Successfully");
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        int row = libraryMembersTable.getSelectedRow();
+        if (row >= 0) {
+            libraryMembersTable.setValueAt(memberIdTextField.getText(), row, 0);
+            libraryMembersTable.setValueAt(firstNameTextField.getText(), row, 1);
+            libraryMembersTable.setValueAt(lastNameTextField.getText(), row, 2);
+            libraryMembersTable.setValueAt(streetAddressTextField.getText(), row, 3);
+            libraryMembersTable.setValueAt(cityTextField.getText(), row, 4);
+            libraryMembersTable.setValueAt(stateTextField.getText(), row, 5);
+            libraryMembersTable.setValueAt(zipCodeTextField.getText(), row, 6);
+            libraryMembersTable.setValueAt(telephoneTextField.getText(), row, 7);
+            JOptionPane.showMessageDialog(null, "Updated Successfully");
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row");
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        memberIdTextField.setText("");
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        streetAddressTextField.setText("");
+        cityTextField.setText("");
+        stateTextField.setText("");
+        zipCodeTextField.setText("");
+        telephoneTextField.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Login.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                LibraryMemberWindow libraryMemberWindow = new LibraryMemberWindow();
+
+                FrameDragListener frameDragListener = new FrameDragListener(libraryMemberWindow);
+                libraryMemberWindow.addMouseListener(frameDragListener);
+                libraryMemberWindow.addMouseMotionListener(frameDragListener);
+
+                libraryMemberWindow.setTitle("Library Member Window");
+                libraryMemberWindow.pack();
+                libraryMemberWindow.setLocationRelativeTo(null);
+                libraryMemberWindow.setVisible(true);
+            }
+        });
+    }
 
     private void navigateToBookWindow() {
         this.setVisible(false);
