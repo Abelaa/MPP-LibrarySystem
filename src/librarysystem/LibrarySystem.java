@@ -25,7 +25,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember;
+	JMenuItem login, allBookIds, allMemberIds, addBook, addLibraryMember,checkoutBook;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -92,11 +92,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		addBook.addActionListener(new AddBookListener());
 		addLibraryMember= new JMenuItem("Add Library Member");
 		addLibraryMember.addActionListener(new AddLibMemberListener());
+		checkoutBook=new JMenuItem("Check Out Book");
+		checkoutBook.addActionListener(new AddcheckOutBookListener());
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
 		options.add(addBook);
 		options.add(addLibraryMember);
+		options.add(checkoutBook);
     }
     
     class LoginListener implements ActionListener {
@@ -181,12 +184,27 @@ public class LibrarySystem extends JFrame implements LibWindow {
     class AddLibMemberListener implements ActionListener{
     	@Override
     	public void actionPerformed(ActionEvent e){
-    		System.out.println("Add library member here");
+    		//System.out.println("Add library member here");
     		LibrarySystem.hideAllWindows();
     		AddLibMember.INSTANCE.init();
     		AddLibMember.INSTANCE.setVisible(true);
 
     	}
+    }
+    class AddcheckOutBookListener implements ActionListener{
+    	@Override
+    	public void actionPerformed(ActionEvent e) {
+    		//System.out.println("check out here");
+    		LibrarySystem.hideAllWindows();
+    		try {
+				CheckOutBook.INSTANCE.init();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		//CheckOutBook.INSTANCE.setVisble(true);
+    	}
+    	
     }
 
 	@Override

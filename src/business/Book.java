@@ -85,6 +85,13 @@ final public class Book implements Serializable {
 	public BookCopy[] getCopies() {
 		return copies;
 	}
+	public List<BookCopy> getAvailableCopies() {
+		List<BookCopy> availableCopies = new ArrayList();
+		for(int i = 0;i<copies.length;i++)
+			if(copies[i].isAvailable())
+				availableCopies.add(copies[i]);
+		return availableCopies;
+	}
 	
 	public List<Author> getAuthors() {
 		return authors;
