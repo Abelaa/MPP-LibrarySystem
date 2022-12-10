@@ -3,72 +3,87 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package librarysystem;
+
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import business.Author;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
 import dataaccess.Auth;
-import static dataaccess.Auth.ADMIN;
-import static dataaccess.Auth.LIBRARIAN;
+import static dataaccess.Auth.BOTH;
 
 import java.awt.event.ActionEvent;
 import utility.MouseListenerUtil;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  *
  * @author GebreegziabherG
  */
 public class BookWindow extends javax.swing.JFrame {
-	private ControllerInterface ci;
+
+    private ControllerInterface ci;
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form LibraryMemberWindow
      */
     public BookWindow() {
         ci = new SystemController();
+
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Title");
+        tableModel.addColumn("ISBN Number");
+        tableModel.addColumn("Total Number of Copies");
+        tableModel.addColumn("Copies Available");
+        tableModel.addColumn("Maximum Checkout Length");
+
         initComponents();
-        
+
+        loadListOfBooks();
+
         Auth auth = SystemController.currentAuth;
         if (auth != null) {
             switch (auth) {
+                case BOTH:
+                    break;
                 case ADMIN:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     break;
                 case LIBRARIAN:
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
                     MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
                 default:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
-                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
             }
         }
     }
-    
+
     public void loadListOfBooks() {
-    	tableModel.setRowCount(0);
-    	List<Book> books = ci.allBooks();
-    	for (Book book : books) {
+        tableModel.setRowCount(0);
+        List<Book> books = ci.allBooks();
+        for (Book book : books) {
             this.tableModel.insertRow(
-            	tableModel.getRowCount(), 
-        		new Object[] {
-    				book.getTitle(), 
-    				book.getIsbn(), 
-    				book.getCopyNums().size(),
-    				book.countAvailable()
-    			}
+                    tableModel.getRowCount(),
+                    new Object[]{
+                        book.getTitle(),
+                        book.getIsbn(),
+                        book.getCopyNums().size(),
+                        book.countAvailable(),
+                        book.getMaxCheckoutLength()
+                    }
             );
-    	}
+        }
     }
 
     /**
@@ -110,7 +125,7 @@ public class BookWindow extends javax.swing.JFrame {
         numberOfCopiesTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
+        btnAddCopy = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnManageAuthors = new javax.swing.JButton();
@@ -491,8 +506,18 @@ public class BookWindow extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        btnUpdate.setText("Update");
+        btnAddCopy.setText("Add Copy");
+        btnAddCopy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCopyActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -502,6 +527,11 @@ public class BookWindow extends javax.swing.JFrame {
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnManageAuthors.setText("Manage Authors");
         btnManageAuthors.addActionListener(new java.awt.event.ActionListener() {
@@ -518,7 +548,7 @@ public class BookWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
@@ -530,7 +560,7 @@ public class BookWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdate)
+                .addComponent(btnAddCopy)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -544,11 +574,6 @@ public class BookWindow extends javax.swing.JFrame {
 
         numberOfCheckoutDasysTextField.setForeground(new java.awt.Color(0, 51, 51));
         numberOfCheckoutDasysTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        numberOfCheckoutDasysTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numberOfCheckoutDasysTextFieldActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -604,25 +629,7 @@ public class BookWindow extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
-        booksListTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Title", "ISBN Number", "Total Number of Copies", "Copies Available", "", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        booksListTable.setModel(tableModel);
         booksListTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(booksListTable);
         booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -630,10 +637,6 @@ public class BookWindow extends javax.swing.JFrame {
             booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
             booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
             booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-            booksListTable.getColumnModel().getColumn(4).setResizable(false);
-            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
-            booksListTable.getColumnModel().getColumn(5).setResizable(false);
-            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
         }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -688,7 +691,18 @@ public class BookWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+
+        int selectedRow = booksListTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row from the list of books");
+            return;
+        }
+
+        Book selectedBook = ci.allBooks().get(selectedRow);
+        ci.deleteBookById(selectedBook.getIsbn());
+        loadListOfBooks();
+
+        JOptionPane.showMessageDialog(null, "Book deleted successfully.");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
@@ -814,14 +828,14 @@ public class BookWindow extends javax.swing.JFrame {
     private void btnManageAuthorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageAuthorsActionPerformed
         int selectedRow = booksListTable.getSelectedRow();
         if (selectedRow == -1) {
-        	JOptionPane.showMessageDialog(this, "Please select a row from the list of books");
-        	return;
+            JOptionPane.showMessageDialog(this, "Please select a row from the list of books");
+            return;
         }
         this.setVisible(false);
 
         Book selectedBook = ci.allBooks().get(selectedRow);
         BookAuthorWindow bookAuthorWindow = new BookAuthorWindow(selectedBook);
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(bookAuthorWindow);
         bookAuthorWindow.addMouseListener(frameDragListener);
         bookAuthorWindow.addMouseMotionListener(frameDragListener);
@@ -864,39 +878,84 @@ public class BookWindow extends javax.swing.JFrame {
     private void panelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseExited
         linkLogoutLinkMouseExited();
     }//GEN-LAST:event_panelLinkLogoutMouseExited
-    private void navigateToLibraryMemberWindow(){
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        String isbn = iSBNNumberTextField.getText();
+        String title = bookTitleTextField.getText();
+        int maxCheckoutLength = 0, numberOfCopies = 0;
+        try {
+            maxCheckoutLength = Integer.parseInt(numberOfCheckoutDasysTextField.getText());
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Max number of checkout days must be a number.");
+            return;
+        }
+        try {
+            numberOfCopies = Integer.parseInt(numberOfCopiesTextField.getText());
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(null, "Number of copies must be a number.");
+            return;
+        }
+
+        Book book = new Book(isbn, title, numberOfCopies, maxCheckoutLength);
+        ci.addBook(book);
+
+        BookWindow.this.loadListOfBooks();
+        JOptionPane.showMessageDialog(null, "Added book successfully.");
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        iSBNNumberTextField.setText("");
+        bookTitleTextField.setText("");
+        numberOfCopiesTextField.setText("");
+        numberOfCheckoutDasysTextField.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnAddCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCopyActionPerformed
+        int selectedRow = booksListTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(null, "Please select a row from the list of books");
+            return;
+        }
+
+        String isbn = tableModel.getValueAt(selectedRow, 1).toString();
+        ci.addBookCopyByIsbn(isbn);
+        loadListOfBooks();
+
+        JOptionPane.showMessageDialog(null, "Copy added successully.");
+    }//GEN-LAST:event_btnAddCopyActionPerformed
+    private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
         libraryMember.addMouseListener(frameDragListener);
         libraryMember.addMouseMotionListener(frameDragListener);
         libraryMember.setLocationRelativeTo(null);
         libraryMember.setVisible(true);
     }
-    
-    private void navigateToCheckoutRecordWindow(){
+
+    private void navigateToCheckoutRecordWindow() {
         this.setVisible(false);
         CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
         checkoutRecordWindow.addMouseListener(frameDragListener);
         checkoutRecordWindow.addMouseMotionListener(frameDragListener);
         checkoutRecordWindow.setLocationRelativeTo(null);
         checkoutRecordWindow.setVisible(true);
     }
-    
-    private void navigateToMoreInfoWindow(){
+
+    private void navigateToMoreInfoWindow() {
         this.setVisible(false);
         MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
-        
+
         FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
         moreInfoWindow.addMouseListener(frameDragListener);
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
     }
-    
+
     private void navigateToLoginPage() {
         this.setVisible(false);
         SystemController.currentAuth = null;
@@ -908,54 +967,61 @@ public class BookWindow extends javax.swing.JFrame {
         login.setLocationRelativeTo(null);
         login.setVisible(true);
     }
-    
-    private void linkManageMembersMouseEntered(){
+
+    private void linkManageMembersMouseEntered() {
         panelLinkManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         imgManageMembers.setBackground(new java.awt.Color(60, 170, 230));
         labelManageMembers.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageMembersMouseExited(){
+
+    private void linkManageMembersMouseExited() {
         panelLinkManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         imgManageMembers.setBackground(new java.awt.Color(53, 137, 224));
         labelManageMembers.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkManageBooksMouseEntered(){
+
+    private void linkManageBooksMouseEntered() {
         panelLinkManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         imgManageBooks.setBackground(new java.awt.Color(60, 170, 230));
         labelManageBooks.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkManageBooksMouseExited(){
+
+    private void linkManageBooksMouseExited() {
         panelLinkManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         imgManageBooks.setBackground(new java.awt.Color(53, 137, 224));
         labelManageBooks.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkCheckoutRecordsMouseEntered(){
+
+    private void linkCheckoutRecordsMouseEntered() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         imgCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
         labelCheckoutRecords.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkCheckoutRecordsMouseExited(){
+
+    private void linkCheckoutRecordsMouseExited() {
         panelLinkCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         imgCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
         labelCheckoutRecords.setBackground(new java.awt.Color(53, 137, 224));
     }
-    private void linkMoreInfoMouseEntered(){
+
+    private void linkMoreInfoMouseEntered() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         imgMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
         labelMoreInfo.setBackground(new java.awt.Color(60, 170, 230));
     }
-    private void linkMoreInfoMouseExited(){
+
+    private void linkMoreInfoMouseExited() {
         panelLinkMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
-    
+
     private void linkLogoutLinkMouseEntered() {
         panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
     }
-    
+
     private void linkLogoutLinkMouseExited() {
         panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
         imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
@@ -966,11 +1032,11 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JTextField bookTitleTextField;
     private javax.swing.JTable booksListTable;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddCopy;
     private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnManageAuthors;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JTextField iSBNNumberTextField;

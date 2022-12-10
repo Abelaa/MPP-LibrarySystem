@@ -17,6 +17,7 @@ import business.ControllerInterface;
 import business.SystemController;
 import dataaccess.Auth;
 import static dataaccess.Auth.ADMIN;
+import static dataaccess.Auth.BOTH;
 import static dataaccess.Auth.LIBRARIAN;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -27,52 +28,66 @@ import utility.MouseListenerUtil;
  * @author GebreegziabherG
  */
 public class CheckoutRecordWindow extends javax.swing.JFrame {
-	private ControllerInterface ci;
+
+    private ControllerInterface ci;
+    private DefaultTableModel tableModel;
 
     /**
      * Creates new form LibraryMemberWindow
      */
     public CheckoutRecordWindow() {
-    	ci = new SystemController();
+        ci = new SystemController();
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Member ID");
+        tableModel.addColumn("First Name");
+        tableModel.addColumn("Last Name");
+        tableModel.addColumn("Book Title");
+        tableModel.addColumn("ISBN Number");
+        tableModel.addColumn("Copy Number");
+        tableModel.addColumn("Checkout Date");
+        tableModel.addColumn("Due Date");
         initComponents();
-        
+        loadListOfCheckoutEntries();
+
         Auth auth = SystemController.currentAuth;
         if (auth != null) {
             switch (auth) {
+                case BOTH:
+                    break;
                 case ADMIN:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     break;
                 case LIBRARIAN:
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
                     MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
                 default:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
-                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
             }
         }
     }
-    
+
     public void loadListOfCheckoutEntries() {
-    	tableModel.setRowCount(0);
-    	List<CheckoutEntry> entries = ci.allCheckoutEntries();
-    	for (CheckoutEntry entry : entries) {
+        tableModel.setRowCount(0);
+        List<CheckoutEntry> entries = ci.allCheckoutEntries();
+        for (CheckoutEntry entry : entries) {
             this.tableModel.insertRow(
-            	tableModel.getRowCount(), 
-        		new Object[] {
-        			entry.getCheckoutRecord().getLibraryMember().getMemberId(),
-        			entry.getCheckoutRecord().getLibraryMember().getFirstName(),
-        			entry.getCheckoutRecord().getLibraryMember().getLastName(),
-        			entry.getBookCopy().getBook().getTitle(),
-        			entry.getBookCopy().getBook().getIsbn(),
-        			entry.getBookCopy().getCopyNum(),
-        			entry.getCheckoutDate(),
-        			entry.getDueDate()
-    			}
+                    tableModel.getRowCount(),
+                    new Object[]{
+                        entry.getCheckoutRecord().getLibraryMember().getMemberId(),
+                        entry.getCheckoutRecord().getLibraryMember().getFirstName(),
+                        entry.getCheckoutRecord().getLibraryMember().getLastName(),
+                        entry.getBookCopy().getBook().getTitle(),
+                        entry.getBookCopy().getBook().getIsbn(),
+                        entry.getBookCopy().getCopyNum(),
+                        entry.getCheckoutDate(),
+                        entry.getDueDate()
+                    }
             );
-    	}
+        }
     }
 
     /**
@@ -491,10 +506,9 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
         btnUpdate.setText("Checkout");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnUpdateMouseClicked(evt);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -556,25 +570,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        checkoutRecordsTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Member ID", "First Name", "Last Name", "Book Title", "ISBN Number", "Copy Number", "Checkout Date", "Due Date"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        checkoutRecordsTable.setModel(tableModel);
         checkoutRecordsTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(checkoutRecordsTable);
         checkoutRecordsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -808,6 +804,20 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         memberIdTextField.setText("");
     }//GEN-LAST:event_iSBNNumberTextFieldActionPerformed
 
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        String memberId = memberIdTextField.getText();
+        String isbn = iSBNNumberTextField.getText();
+
+        String errorMessage = ci.validateMemberIDAndISBN(memberId, isbn);
+        if (!errorMessage.isEmpty()) {
+            JOptionPane.showMessageDialog(null, errorMessage);
+            return;
+        }
+
+        ci.createCheckoutRecordEntry(memberId, isbn);
+        CheckoutRecordWindow.this.loadListOfCheckoutEntries();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
     private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -840,7 +850,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
     }
-    
+
     private void navigateToLoginPage() {
         this.setVisible(false);
         SystemController.currentAuth = null;
@@ -900,58 +910,17 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
-    
+
     private void linkLogoutLinkMouseEntered() {
         panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
     }
-    
+
     private void linkLogoutLinkMouseExited() {
         panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
         imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
         labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
-    }
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
-
-                FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
-                checkoutRecordWindow.addMouseListener(frameDragListener);
-                checkoutRecordWindow.addMouseMotionListener(frameDragListener);
-
-                checkoutRecordWindow.setTitle("Login");
-                checkoutRecordWindow.pack();
-                checkoutRecordWindow.setLocationRelativeTo(null);
-                checkoutRecordWindow.setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

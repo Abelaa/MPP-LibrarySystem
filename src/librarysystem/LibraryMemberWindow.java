@@ -9,6 +9,7 @@ import dataaccess.DataAccessFacade;
 import business.LibraryMember;
 import business.SystemController;
 import dataaccess.Auth;
+import static dataaccess.Auth.BOTH;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +32,8 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         Auth auth = SystemController.currentAuth;
         if (auth != null) {
             switch (auth) {
+                case BOTH:
+                    break;
                 case ADMIN:
                     MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
                     break;

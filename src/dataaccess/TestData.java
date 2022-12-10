@@ -108,10 +108,10 @@ public class TestData {
 		
 		// create and assoc authors - , Arrays.asList(allAuthors.get(0), allAuthors.get(1))
 		{
-			add(new Book("23-11451", "The Big Fish", 21));
-			add(new Book("28-12331", "Antartica", 7));
-			add(new Book("99-22223", "Thinking Java", 21));
-			add(new Book("48-56882", "Jimmy's First Day of School", 7));		
+			add(new Book("23-11451", "The Big Fish", 2, 21));
+			add(new Book("28-12331", "Antartica", 3, 7));
+			add(new Book("99-22223", "Thinking Java", 4, 21));
+			add(new Book("48-56882", "Jimmy's First Day of School", 5, 7));		
 		}
 	};
 	

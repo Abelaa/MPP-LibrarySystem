@@ -249,24 +249,36 @@ public class Login extends javax.swing.JFrame {
             ci.login(username, password);
 
             Auth auth = SystemController.currentAuth;
-            JOptionPane.showMessageDialog(this, 
-        		"Welcome " 
-        		+ (auth == Auth.BOTH ? "ADMIN/LIBRARIAN" : auth)
-        	);
-
-            this.setVisible(false);
-            LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-            FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
-            libraryMember.addMouseListener(frameDragListener);
-            libraryMember.addMouseMotionListener(frameDragListener);
-            libraryMember.setLocationRelativeTo(null);
-            libraryMember.setVisible(true);
+            JOptionPane.showMessageDialog(this,
+                    "Welcome "
+                    + (auth == Auth.BOTH ? "ADMIN/LIBRARIAN" : auth)
+            );
+            switch (auth) {
+                case LIBRARIAN:
+                    this.setVisible(false);
+                    CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
+                    FrameDragListener frameDragListener2 = new FrameDragListener(checkoutRecordWindow);
+                    checkoutRecordWindow.addMouseListener(frameDragListener2);
+                    checkoutRecordWindow.addMouseMotionListener(frameDragListener2);
+                    checkoutRecordWindow.setLocationRelativeTo(null);
+                    checkoutRecordWindow.setVisible(true);
+                    break;
+                default:
+                    this.setVisible(false);
+                    LibraryMemberWindow libraryMember = new LibraryMemberWindow();
+                    FrameDragListener frameDragListener1 = new FrameDragListener(libraryMember);
+                    libraryMember.addMouseListener(frameDragListener1);
+                    libraryMember.addMouseMotionListener(frameDragListener1);
+                    libraryMember.setLocationRelativeTo(null);
+                    libraryMember.setVisible(true);
+                    break;
+            }
 
         } catch (Exception e) {
             //JOptionPane.showMessageDialog(this, "Invalid Credentials");
             CustomConfirmationFailedDialog dialog = new CustomConfirmationFailedDialog("Invalid Credentials!");
             dialog.setVisible(true);
-            
+
             //txtFieldUsername.setText("");
             passwordTextField.setText("");
         }
