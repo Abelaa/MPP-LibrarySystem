@@ -42,6 +42,12 @@ public class DataAccessFacade implements DataAccess {
 		return books.get(isbn);
 	}
 	
+	public void deleteBookByIsbn(String isbn) {
+		HashMap<String, Book> books = readBooksMap();
+		books.remove(isbn);
+		saveToStorage(StorageType.BOOKS, books);
+	}
+	
 	//implement: other save operations
 	public void saveNewMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();

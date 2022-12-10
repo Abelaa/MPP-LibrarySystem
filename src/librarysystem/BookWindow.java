@@ -17,6 +17,9 @@ import business.ControllerInterface;
 import business.SystemController;
 
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  *
@@ -43,7 +46,8 @@ public class BookWindow extends javax.swing.JFrame {
     				book.getTitle(), 
     				book.getIsbn(), 
     				book.getCopyNums().size(),
-    				book.countAvailable()
+    				book.countAvailable(),
+    				book.getMaxCheckoutLength()
     			}
             );
     	}
@@ -90,15 +94,27 @@ public class BookWindow extends javax.swing.JFrame {
         		
         		String isbn = iSBNNumberTextField.getText();
         		String title = bookTitleTextField.getText();
-        		int maxCheckoutLength = 21;
-        		Book book = new Book(isbn, title, maxCheckoutLength);
+        		int maxCheckoutLength = 0, numberOfCopies = 0;
+        		try {
+	        		maxCheckoutLength = Integer.parseInt(numberOfCheckoutDasysTextField.getText());
+        		} catch (Exception error) {
+        			JOptionPane.showMessageDialog(null, "Max number of checkout days must be a number.");
+        			return;
+        		}
+        		try {
+	        		numberOfCopies = Integer.parseInt(numberOfCopiesTextField.getText());
+        		} catch (Exception error) {
+        			JOptionPane.showMessageDialog(null, "Number of copies must be a number.");
+        			return;
+        		}
+        		
+        		Book book = new Book(isbn, title, numberOfCopies, maxCheckoutLength);
         		ci.addBook(book);
         		
         		BookWindow.this.loadListOfBooks();
         		JOptionPane.showMessageDialog(null, "Added book successfully.");
         	}
         });
-        btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnAddCopy = new javax.swing.JButton();
         btnAddCopy.addActionListener(new ActionListener() {
@@ -433,8 +449,6 @@ public class BookWindow extends javax.swing.JFrame {
 
         btnAdd.setText("Add");
 
-        btnUpdate.setText("Update");
-
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -452,34 +466,31 @@ public class BookWindow extends javax.swing.JFrame {
         });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
-                .addContainerGap())
+        	jPanel6Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel6Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(jPanel6Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+        				.addComponent(btnDelete, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+        				.addComponent(btnAddCopy, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+        				.addComponent(btnManageAuthors, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        			.addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdate)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddCopy)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnManageAuthors)
-                .addContainerGap(36, Short.MAX_VALUE))
+        	jPanel6Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel6Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(btnAdd)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnDelete)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnAddCopy)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnManageAuthors)
+        			.addContainerGap(95, Short.MAX_VALUE))
         );
+        jPanel6.setLayout(jPanel6Layout);
 
         lastNameLabel1.setText("Max checkout(in days)");
 
@@ -546,6 +557,7 @@ public class BookWindow extends javax.swing.JFrame {
         tableModel.addColumn("ISBN Number");
         tableModel.addColumn("Total Number of Copies");
         tableModel.addColumn("Copies Available");
+        tableModel.addColumn("Maximum Checkout Length");
         booksListTable.setModel(tableModel);
         loadListOfBooks();
         
@@ -605,7 +617,18 @@ public class BookWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+
+    	int selectedRow = booksListTable.getSelectedRow();
+    	if (selectedRow == -1) {
+        	JOptionPane.showMessageDialog(this, "Please select a row from the list of books");
+        	return;
+        }
+
+        Book selectedBook = ci.allBooks().get(selectedRow);
+    	ci.deleteBookById(selectedBook.getIsbn());
+    	loadListOfBooks();
+    	
+    	JOptionPane.showMessageDialog(null, "Book deleted successfully.");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
@@ -828,7 +851,6 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnManageAuthors;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JTextField iSBNNumberTextField;

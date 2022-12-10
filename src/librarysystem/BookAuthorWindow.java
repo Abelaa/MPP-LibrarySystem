@@ -17,6 +17,9 @@ import business.ControllerInterface;
 import business.SystemController;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.GroupLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  *
@@ -104,12 +107,23 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         		Author author = new Author(firstName, lastName, telephone, addr, bio, hasCredential);
 
         		BookAuthorWindow.this.book.addAuthor(author);
+        		ci.updateBook(BookAuthorWindow.this.book);
         		BookAuthorWindow.this.loadListOfAuthors();
         	}
         });
-        btnUpdate = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        btnClear.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		firstNameTextField.setText("");
+        		lastNameTextField.setText("");
+        		telephoneTextField.setText("");
+        		tfBio.setText("");
+        		streetAddressTextField.setText("");
+        		stateTextField.setText("");
+        		cityTextField.setText("");
+        		zipCodeTextField.setText("");
+        	}
+        });
         btnClear1 = new javax.swing.JButton();
         telephoneLabel1 = new javax.swing.JLabel();
         tfBio = new javax.swing.JTextField();
@@ -147,7 +161,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 0));
-        jLabel1.setText("Example Book 1");
+        jLabel1.setText(this.book.getTitle());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -227,15 +241,6 @@ public class BookAuthorWindow extends javax.swing.JFrame {
 
         btnAdd.setText("Add");
 
-        btnUpdate.setText("Update");
-
-        btnDelete.setText("Delete");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
         btnClear.setText("Clear");
 
         btnClear1.setBackground(new java.awt.Color(242, 242, 242));
@@ -251,30 +256,30 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnClear1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        	jPanel6Layout.createParallelGroup(Alignment.TRAILING)
+        		.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+        		.addGroup(jPanel6Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(btnClear, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+        			.addContainerGap())
+        		.addGroup(Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(btnClear1, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+        			.addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(btnAdd)
-                .addGap(18, 18, 18)
-                .addComponent(btnUpdate)
-                .addGap(18, 18, 18)
-                .addComponent(btnDelete)
-                .addGap(18, 18, 18)
-                .addComponent(btnClear)
-                .addGap(18, 18, 18)
-                .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel6Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel6Layout.createSequentialGroup()
+        			.addGap(32)
+        			.addComponent(btnAdd)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnClear)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnClear1, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(193, Short.MAX_VALUE))
         );
+        jPanel6.setLayout(jPanel6Layout);
 
         telephoneLabel1.setText("Bio");
 
@@ -448,10 +453,6 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
     private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
         System.exit(0);
     }//GEN-LAST:event_btnLoginExitMouseClicked
@@ -497,8 +498,6 @@ public class BookAuthorWindow extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnClear1;
     private javax.swing.JLabel btnCloseWindow;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel cityLabel;
     private javax.swing.JTextField cityTextField;
     private javax.swing.JLabel firstNameLabel;

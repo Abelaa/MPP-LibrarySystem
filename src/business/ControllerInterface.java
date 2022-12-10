@@ -14,6 +14,8 @@ public interface ControllerInterface {
 	public List<Book> allBooks();
 	public Book addBookCopyByIsbn(String isbn);
 	public void addBook(Book book);
+	public void updateBook(Book book);
+	public void deleteBookById(String isbn);
 	public void addLibraryMember(LibraryMember libraryMember);
 	public void createCheckoutRecordEntry(String memberId, String isbn);
 	public List<CheckoutEntry> allCheckoutEntries();

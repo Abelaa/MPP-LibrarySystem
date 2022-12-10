@@ -18,4 +18,5 @@ public interface DataAccess {
 	public void updateMember(LibraryMember member);
 	public LibraryMember getLibraryMemberById(String memberId);
 	public Book getBookByIsbn(String isbn);
+	public void deleteBookByIsbn(String isbn);
 }

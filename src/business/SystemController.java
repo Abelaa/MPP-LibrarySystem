@@ -56,6 +56,19 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBook(book);
 	}
+
+	@Override
+	public void updateBook(Book book) {
+		DataAccess da = new DataAccessFacade();
+		da.updateBook(book);
+	}
+	
+	@Override
+	public void deleteBookById(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		da.deleteBookByIsbn(isbn);
+	}
+	
 	@Override
 	public void addLibraryMember(LibraryMember libraryMember) {
 		DataAccess da= new DataAccessFacade();
