@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package librarysystem;
+package utility;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 
-public class FrameDragListener extends MouseAdapter {
+public class FrameDragListenerUtil extends MouseAdapter {
 
     private final JFrame frame;
     private Point mouseDownCompCoords = null;
 
-    public FrameDragListener(JFrame frame) {
+    public FrameDragListenerUtil(JFrame frame) {
         this.frame = frame;
     }
 

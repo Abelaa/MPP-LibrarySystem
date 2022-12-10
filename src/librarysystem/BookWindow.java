@@ -4,6 +4,7 @@
  */
 package librarysystem;
 
+import utility.FrameDragListenerUtil;
 import java.awt.event.ActionListener;
 import java.util.List;
 
@@ -15,12 +16,14 @@ import business.ControllerInterface;
 import business.SystemController;
 import dataaccess.Auth;
 import static dataaccess.Auth.BOTH;
+import java.awt.Color;
 
 import java.awt.event.ActionEvent;
 import utility.MouseListenerUtil;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import utility.ValidationUtil;
 
 /**
  *
@@ -130,7 +133,7 @@ public class BookWindow extends javax.swing.JFrame {
         btnClear = new javax.swing.JButton();
         btnManageAuthors = new javax.swing.JButton();
         lastNameLabel1 = new javax.swing.JLabel();
-        numberOfCheckoutDasysTextField = new javax.swing.JTextField();
+        numberOfCheckoutDaysTextField = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         booksListTable = new javax.swing.JTable();
@@ -444,10 +447,12 @@ public class BookWindow extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
+        btnCloseWindow.setBackground(new java.awt.Color(255, 255, 255));
         btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCloseWindow.setForeground(new java.awt.Color(51, 51, 51));
         btnCloseWindow.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCloseWindow.setText("X");
+        btnCloseWindow.setOpaque(true);
         btnCloseWindow.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseWindowMouseClicked(evt);
@@ -572,8 +577,8 @@ public class BookWindow extends javax.swing.JFrame {
 
         lastNameLabel1.setText("Max checkout(in days)");
 
-        numberOfCheckoutDasysTextField.setForeground(new java.awt.Color(0, 51, 51));
-        numberOfCheckoutDasysTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        numberOfCheckoutDaysTextField.setForeground(new java.awt.Color(0, 51, 51));
+        numberOfCheckoutDaysTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -594,7 +599,7 @@ public class BookWindow extends javax.swing.JFrame {
                     .addComponent(lastNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(numberOfCheckoutDasysTextField)
+                    .addComponent(numberOfCheckoutDaysTextField)
                     .addComponent(lastNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -611,7 +616,7 @@ public class BookWindow extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(lastNameLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(numberOfCheckoutDasysTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(numberOfCheckoutDaysTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(memberIdLabel)
@@ -630,14 +635,7 @@ public class BookWindow extends javax.swing.JFrame {
         );
 
         booksListTable.setModel(tableModel);
-        booksListTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(booksListTable);
-        booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (booksListTable.getColumnModel().getColumnCount() > 0) {
-            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
-        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -705,20 +703,9 @@ public class BookWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Book deleted successfully.");
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_btnLoginExitMouseClicked
-
-    private void btnLoginExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
-    }//GEN-LAST:event_btnLoginExitMouseEntered
-
-    private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
-    }//GEN-LAST:event_btnLoginExitMouseExited
-
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnCloseWindow.setBackground(Color.red);
+        btnCloseWindow.setForeground(Color.white);
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseClicked
@@ -782,7 +769,8 @@ public class BookWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_labelManageMembersMouseExited
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void panelLinkManageMembersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkManageMembersMouseClicked
@@ -836,7 +824,7 @@ public class BookWindow extends javax.swing.JFrame {
         Book selectedBook = ci.allBooks().get(selectedRow);
         BookAuthorWindow bookAuthorWindow = new BookAuthorWindow(selectedBook);
 
-        FrameDragListener frameDragListener = new FrameDragListener(bookAuthorWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(bookAuthorWindow);
         bookAuthorWindow.addMouseListener(frameDragListener);
         bookAuthorWindow.addMouseMotionListener(frameDragListener);
         bookAuthorWindow.setLocationRelativeTo(null);
@@ -882,9 +870,22 @@ public class BookWindow extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String isbn = iSBNNumberTextField.getText();
         String title = bookTitleTextField.getText();
+        String numberOfCopiesText = numberOfCopiesTextField.getText();
+        String checkoutDays = numberOfCheckoutDaysTextField.getText();
+        if(isbn.isEmpty() || title.isEmpty() || numberOfCopiesText.isEmpty() || checkoutDays.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Pleas fill out all fields.");
+            return;
+        }
+        
+        if(!ValidationUtil.isValidNumber(isbn) || !ValidationUtil.isValidNumber(numberOfCopiesText) || !ValidationUtil.isValidNumber(checkoutDays)){
+            JOptionPane.showMessageDialog(null, "ISBN/Number of copies/Max checkout must be numeric.");
+            return;
+        }
+        
         int maxCheckoutLength = 0, numberOfCopies = 0;
         try {
-            maxCheckoutLength = Integer.parseInt(numberOfCheckoutDasysTextField.getText());
+            maxCheckoutLength = Integer.parseInt(numberOfCheckoutDaysTextField.getText());
         } catch (Exception error) {
             JOptionPane.showMessageDialog(null, "Max number of checkout days must be a number.");
             return;
@@ -907,7 +908,7 @@ public class BookWindow extends javax.swing.JFrame {
         iSBNNumberTextField.setText("");
         bookTitleTextField.setText("");
         numberOfCopiesTextField.setText("");
-        numberOfCheckoutDasysTextField.setText("");
+        numberOfCheckoutDaysTextField.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnAddCopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCopyActionPerformed
@@ -927,7 +928,7 @@ public class BookWindow extends javax.swing.JFrame {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(libraryMember);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(libraryMember);
         libraryMember.addMouseListener(frameDragListener);
         libraryMember.addMouseMotionListener(frameDragListener);
         libraryMember.setLocationRelativeTo(null);
@@ -938,7 +939,7 @@ public class BookWindow extends javax.swing.JFrame {
         this.setVisible(false);
         CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(checkoutRecordWindow);
         checkoutRecordWindow.addMouseListener(frameDragListener);
         checkoutRecordWindow.addMouseMotionListener(frameDragListener);
         checkoutRecordWindow.setLocationRelativeTo(null);
@@ -949,7 +950,7 @@ public class BookWindow extends javax.swing.JFrame {
         this.setVisible(false);
         MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(moreInfoWindow);
         moreInfoWindow.addMouseListener(frameDragListener);
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
@@ -961,7 +962,7 @@ public class BookWindow extends javax.swing.JFrame {
         SystemController.currentAuth = null;
         Login login = new Login();
 
-        FrameDragListener frameDragListener = new FrameDragListener(login);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(login);
         login.addMouseListener(frameDragListener);
         login.addMouseMotionListener(frameDragListener);
         login.setLocationRelativeTo(null);
@@ -1061,7 +1062,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JLabel lastNameLabel1;
     private javax.swing.JLabel memberIdLabel;
-    private javax.swing.JTextField numberOfCheckoutDasysTextField;
+    private javax.swing.JTextField numberOfCheckoutDaysTextField;
     private javax.swing.JTextField numberOfCopiesTextField;
     private javax.swing.JPanel panelLinkCheckoutRecords;
     private javax.swing.JPanel panelLinkLogout;

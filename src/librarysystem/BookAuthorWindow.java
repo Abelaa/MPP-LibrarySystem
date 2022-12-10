@@ -4,6 +4,7 @@
  */
 package librarysystem;
 
+import utility.FrameDragListenerUtil;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -15,11 +16,13 @@ import business.Author;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import utility.ValidationUtil;
 
 /**
  *
@@ -50,6 +53,8 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         tableModel.addColumn("Bio");
 
         initComponents();
+        this.loadListOfAuthors();
+        
         bookNameLabel.setText(book.getTitle());
     }
 
@@ -416,20 +421,9 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_btnLoginExitMouseClicked
-
-    private void btnLoginExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
-    }//GEN-LAST:event_btnLoginExitMouseEntered
-
-    private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
-    }//GEN-LAST:event_btnLoginExitMouseExited
-
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnCloseWindow.setBackground(Color.red);
+        btnCloseWindow.setForeground(Color.white);
     }//GEN-LAST:event_btnCloseWindowMouseEntered
 
     private void btnCloseWindowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseClicked
@@ -437,7 +431,8 @@ public class BookAuthorWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseWindowMouseClicked
 
     private void btnCloseWindowMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnCloseWindow.setBackground(Color.white);
+        btnCloseWindow.setForeground(Color.black);
     }//GEN-LAST:event_btnCloseWindowMouseExited
 
     private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
@@ -457,15 +452,32 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         String bio = tfBio.getText();
 
         if (firstName.isEmpty() || lastName.isEmpty() || telephone.isEmpty() || street.isEmpty() || city.isEmpty() || state.isEmpty() || zip.isEmpty() || bio.isEmpty()) {
-            JOptionPane.showMessageDialog(this,"Please fill out all the fields");
-        } else {
-            boolean hasCredential = this.hasCredentialCheckbox.isSelected();
-            Author author = new Author(firstName, lastName, telephone, addr, bio, hasCredential);
-
-            BookAuthorWindow.this.book.addAuthor(author);
-            ci.updateBook(BookAuthorWindow.this.book);
-            BookAuthorWindow.this.loadListOfAuthors();
+            JOptionPane.showMessageDialog(this, "Please fill out all the fields");
+            return;
         }
+        
+        if(!ValidationUtil.isValidAlpha(firstName) ||
+                !ValidationUtil.isValidAlpha(lastName)){
+            JOptionPane.showMessageDialog(null, "Invalid first name/last name.");
+            return;
+        }
+        
+        if(!ValidationUtil.isValidPhone(telephone)){
+            JOptionPane.showMessageDialog(null, "Invalid phone number.");
+            return;
+        }
+        
+        if(!ValidationUtil.isValidZipCode(zip)){
+            JOptionPane.showMessageDialog(null, "Invalid zip code.");
+            return;
+        }
+
+        boolean hasCredential = this.hasCredentialCheckbox.isSelected();
+        Author author = new Author(firstName, lastName, telephone, addr, bio, hasCredential);
+
+        this.book.addAuthor(author);
+        ci.updateBook(this.book);
+        this.loadListOfAuthors();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -483,7 +495,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         this.setVisible(false);
         BookWindow bookWindow = new BookWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(bookWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(bookWindow);
         bookWindow.addMouseListener(frameDragListener);
         bookWindow.addMouseMotionListener(frameDragListener);
         bookWindow.setLocationRelativeTo(null);

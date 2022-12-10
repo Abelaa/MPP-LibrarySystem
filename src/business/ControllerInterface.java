@@ -19,5 +19,6 @@ public interface ControllerInterface {
 	public void addLibraryMember(LibraryMember libraryMember);
 	public void createCheckoutRecordEntry(String memberId, String isbn);
 	public List<CheckoutEntry> allCheckoutEntries();
+        public List<CheckoutEntry> getCheckoutEntriesByID(String memberID);
 	public String validateMemberIDAndISBN(String memberId, String isbn);
 }

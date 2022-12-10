@@ -4,11 +4,13 @@
  */
 package librarysystem;
 
+import utility.FrameDragListenerUtil;
 import javax.swing.JOptionPane;
 
 import business.ControllerInterface;
 import business.SystemController;
 import dataaccess.Auth;
+import java.awt.Color;
 
 /**
  *
@@ -76,11 +78,13 @@ public class Login extends javax.swing.JFrame {
 
         panelLoginForm.setBackground(new java.awt.Color(53, 137, 224));
 
+        btnLoginExit.setBackground(new java.awt.Color(53, 137, 224));
         btnLoginExit.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnLoginExit.setForeground(new java.awt.Color(255, 255, 255));
         btnLoginExit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnLoginExit.setText("X");
         btnLoginExit.setToolTipText("Close to exit the application");
+        btnLoginExit.setOpaque(true);
         btnLoginExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLoginExitMouseClicked(evt);
@@ -235,11 +239,13 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginExitMouseClicked
 
     private void btnLoginExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseEntered
-        btnLoginExit.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        btnLoginExit.setBackground(Color.red);
+        btnLoginExit.setForeground(Color.white);
     }//GEN-LAST:event_btnLoginExitMouseEntered
 
     private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnLoginExit.setFont(new java.awt.Font("Segoe UI", 0, 18));
+        btnLoginExit.setBackground(new Color(53,137,224));
+        btnLoginExit.setForeground(Color.white);
     }//GEN-LAST:event_btnLoginExitMouseExited
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
@@ -257,7 +263,7 @@ public class Login extends javax.swing.JFrame {
                 case LIBRARIAN:
                     this.setVisible(false);
                     CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
-                    FrameDragListener frameDragListener2 = new FrameDragListener(checkoutRecordWindow);
+                    FrameDragListenerUtil frameDragListener2 = new FrameDragListenerUtil(checkoutRecordWindow);
                     checkoutRecordWindow.addMouseListener(frameDragListener2);
                     checkoutRecordWindow.addMouseMotionListener(frameDragListener2);
                     checkoutRecordWindow.setLocationRelativeTo(null);
@@ -266,7 +272,7 @@ public class Login extends javax.swing.JFrame {
                 default:
                     this.setVisible(false);
                     LibraryMemberWindow libraryMember = new LibraryMemberWindow();
-                    FrameDragListener frameDragListener1 = new FrameDragListener(libraryMember);
+                    FrameDragListenerUtil frameDragListener1 = new FrameDragListenerUtil(libraryMember);
                     libraryMember.addMouseListener(frameDragListener1);
                     libraryMember.addMouseMotionListener(frameDragListener1);
                     libraryMember.setLocationRelativeTo(null);
@@ -313,7 +319,7 @@ public class Login extends javax.swing.JFrame {
             public void run() {
                 Login login = new Login();
 
-                FrameDragListener frameDragListener = new FrameDragListener(login);
+                FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(login);
                 login.addMouseListener(frameDragListener);
                 login.addMouseMotionListener(frameDragListener);
 

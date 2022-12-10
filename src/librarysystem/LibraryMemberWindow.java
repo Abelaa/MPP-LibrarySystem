@@ -1,5 +1,6 @@
 package librarysystem;
 
+import utility.FrameDragListenerUtil;
 import business.Address;
 import business.ControllerInterface;
 import java.awt.Color;
@@ -15,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import utility.MouseListenerUtil;
+import utility.ValidationUtil;
 
 /**
  *
@@ -35,16 +37,16 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
                 case BOTH:
                     break;
                 case ADMIN:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     break;
                 case LIBRARIAN:
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
                     MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
                 default:
-                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);
                     MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
-                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
                     break;
             }
         }
@@ -735,18 +737,6 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_btnLoginExitMouseClicked
-
-    private void btnLoginExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseEntered
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 1, 22));
-    }//GEN-LAST:event_btnLoginExitMouseEntered
-
-    private void btnLoginExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseExited
-        btnCloseWindow.setFont(new java.awt.Font("Segoe UI", 0, 18));
-    }//GEN-LAST:event_btnLoginExitMouseExited
-
     private void btnCloseWindowMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseWindowMouseEntered
         btnCloseWindow.setBackground(Color.red);
         btnCloseWindow.setForeground(Color.white);
@@ -862,25 +852,47 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         String city = cityTextField.getText();
         String state = stateTextField.getText();
         String zipCode = zipCodeTextField.getText();
+
         if (memberID.equals("") || firstName.equals("") || lastName.equals("") || telephone.equals("")
                 || street.equals("") || city.equals("") || state.equals("") || zipCode.equals("")) {
             JOptionPane.showMessageDialog(null, "Please fill all the fields");
-        } else {
-            Address address = new Address(street, city, state, zipCode);
-            LibraryMember libraryMember = new LibraryMember(memberID, firstName, lastName, telephone, address);
-            controllerInterface.addLibraryMember(libraryMember);
-            tableModel.addRow(new String[]{memberID, firstName, lastName, telephone, street, state, city, zipCode});
-            CustomConfirmationSuccessDialog.getCustomConfirmationSuccessDialog("Added Successfully");
-
-            memberIdTextField.setText("");
-            firstNameTextField.setText("");
-            lastNameTextField.setText("");
-            telephoneTextField.setText("");
-            streetAddressTextField.setText("");
-            cityTextField.setText("");
-            stateTextField.setText("");
-            zipCodeTextField.setText("");
+            return;
         }
+        
+        if(ValidationUtil.memberExists(memberID)){
+            JOptionPane.showMessageDialog(null, "There is existing library member with that ID.");
+            return;
+        }
+
+        if (!ValidationUtil.isValidAlpha(firstName) || !ValidationUtil.isValidAlpha(lastName)) {
+            JOptionPane.showMessageDialog(null, "Invalid first name or last name");
+            return;
+        }
+        
+        if (!ValidationUtil.isValidPhone(telephone)) {
+            JOptionPane.showMessageDialog(null, "Invalid phone number");
+            return;
+        }
+        
+        if (!ValidationUtil.isValidZipCode(zipCode)) {
+            JOptionPane.showMessageDialog(null, "Invalid zip code");
+            return;
+        }
+
+        Address address = new Address(street, city, state, zipCode);
+        LibraryMember libraryMember = new LibraryMember(memberID, firstName, lastName, telephone, address);
+        controllerInterface.addLibraryMember(libraryMember);
+        tableModel.addRow(new String[]{memberID, firstName, lastName, telephone, street, state, city, zipCode});
+        CustomConfirmationSuccessDialog.getCustomConfirmationSuccessDialog("Added Successfully");
+
+        memberIdTextField.setText("");
+        firstNameTextField.setText("");
+        lastNameTextField.setText("");
+        telephoneTextField.setText("");
+        streetAddressTextField.setText("");
+        cityTextField.setText("");
+        stateTextField.setText("");
+        zipCodeTextField.setText("");
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -903,15 +915,52 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         int row = libraryMembersTable.getSelectedRow();
+        
+        String memberID = memberIdTextField.getText();
+        String firstName = firstNameTextField.getText();
+        String lastName = lastNameTextField.getText();
+        String telephone = telephoneTextField.getText();
+        String street = streetAddressTextField.getText();
+        String city = cityTextField.getText();
+        String state = stateTextField.getText();
+        String zipCode = zipCodeTextField.getText();
+
+        if (memberID.equals("") || firstName.equals("") || lastName.equals("") || telephone.equals("")
+                || street.equals("") || city.equals("") || state.equals("") || zipCode.equals("")) {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+            return;
+        }
+        
+        if(ValidationUtil.memberExists(memberID)){
+            JOptionPane.showMessageDialog(null, "There is existing library member with that ID.");
+            return;
+        }
+
+        if (!ValidationUtil.isValidAlpha(firstName) || !ValidationUtil.isValidAlpha(lastName)) {
+            JOptionPane.showMessageDialog(null, "Invalid first name or last name");
+            return;
+        }
+        
+        if (!ValidationUtil.isValidPhone(telephone)) {
+            JOptionPane.showMessageDialog(null, "Invalid phone number");
+            return;
+        }
+        
+        if (!ValidationUtil.isValidZipCode(zipCode)) {
+            JOptionPane.showMessageDialog(null, "Invalid zip code");
+            return;
+        }
+        
         if (row >= 0) {
-            libraryMembersTable.setValueAt(memberIdTextField.getText(), row, 0);
-            libraryMembersTable.setValueAt(firstNameTextField.getText(), row, 1);
-            libraryMembersTable.setValueAt(lastNameTextField.getText(), row, 2);
-            libraryMembersTable.setValueAt(streetAddressTextField.getText(), row, 3);
-            libraryMembersTable.setValueAt(cityTextField.getText(), row, 4);
-            libraryMembersTable.setValueAt(stateTextField.getText(), row, 5);
-            libraryMembersTable.setValueAt(zipCodeTextField.getText(), row, 6);
-            libraryMembersTable.setValueAt(telephoneTextField.getText(), row, 7);
+            libraryMembersTable.setValueAt(memberID, row, 0);
+            libraryMembersTable.setValueAt(firstName, row, 1);
+            libraryMembersTable.setValueAt(lastName, row, 2);
+            libraryMembersTable.setValueAt(telephone, row, 3);
+            libraryMembersTable.setValueAt(street, row, 4);
+            libraryMembersTable.setValueAt(city, row, 5);
+            libraryMembersTable.setValueAt(state, row, 6);
+            libraryMembersTable.setValueAt(zipCode, row, 7);
+            
             JOptionPane.showMessageDialog(null, "Updated Successfully");
         } else {
             JOptionPane.showMessageDialog(null, "Please select a row");
@@ -990,7 +1039,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         this.setVisible(false);
         BookWindow bookWindow = new BookWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(bookWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(bookWindow);
         bookWindow.addMouseListener(frameDragListener);
         bookWindow.addMouseMotionListener(frameDragListener);
         bookWindow.setLocationRelativeTo(null);
@@ -1001,7 +1050,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         this.setVisible(false);
         CheckoutRecordWindow checkoutRecordWindow = new CheckoutRecordWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(checkoutRecordWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(checkoutRecordWindow);
         checkoutRecordWindow.addMouseListener(frameDragListener);
         checkoutRecordWindow.addMouseMotionListener(frameDragListener);
         checkoutRecordWindow.setLocationRelativeTo(null);
@@ -1012,19 +1061,19 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         this.setVisible(false);
         MoreInfoWindow moreInfoWindow = new MoreInfoWindow();
 
-        FrameDragListener frameDragListener = new FrameDragListener(moreInfoWindow);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(moreInfoWindow);
         moreInfoWindow.addMouseListener(frameDragListener);
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
     }
-    
+
     private void navigateToLoginPage() {
         this.setVisible(false);
         SystemController.currentAuth = null;
         Login login = new Login();
 
-        FrameDragListener frameDragListener = new FrameDragListener(login);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(login);
         login.addMouseListener(frameDragListener);
         login.addMouseMotionListener(frameDragListener);
         login.setLocationRelativeTo(null);
@@ -1078,13 +1127,13 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
-    
+
     private void linkLogoutLinkMouseEntered() {
         panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
         labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
     }
-    
+
     private void linkLogoutLinkMouseExited() {
         panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
         imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
