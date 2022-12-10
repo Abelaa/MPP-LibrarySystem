@@ -15,8 +15,12 @@ import business.Book;
 import business.CheckoutEntry;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
+import static dataaccess.Auth.ADMIN;
+import static dataaccess.Auth.LIBRARIAN;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import utility.MouseListenerUtil;
 
 /**
  *
@@ -31,6 +35,24 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     public CheckoutRecordWindow() {
     	ci = new SystemController();
         initComponents();
+        
+        Auth auth = SystemController.currentAuth;
+        if (auth != null) {
+            switch (auth) {
+                case ADMIN:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    break;
+                case LIBRARIAN:
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
+                    break;
+                default:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    break;
+            }
+        }
     }
     
     public void loadListOfCheckoutEntries() {
@@ -77,6 +99,9 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         panelLinkMoreInfo = new javax.swing.JPanel();
         imgMoreInfo = new javax.swing.JLabel();
         labelMoreInfo = new javax.swing.JLabel();
+        panelLinkLogout = new javax.swing.JPanel();
+        imgLinkLogout = new javax.swing.JLabel();
+        labelLinkLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnCloseWindow = new javax.swing.JLabel();
         headingLabel = new javax.swing.JLabel();
@@ -86,24 +111,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         firstNameLabel = new javax.swing.JLabel();
         iSBNNumberTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JButton();
-        btnCheckout = new javax.swing.JButton();
-        btnCheckout.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		String memberId = memberIdTextField.getText();
-        		String isbn = iSBNNumberTextField.getText();
-        		
-        		String errorMessage = ci.validateMemberIDAndISBN(memberId, isbn);
-        		if (errorMessage != "") {
-        			JOptionPane.showMessageDialog(null, errorMessage);
-        			return;
-        		}
-        		
-        		ci.createCheckoutRecordEntry(memberId, isbn);
-        		CheckoutRecordWindow.this.loadListOfCheckoutEntries();
-        	}
-        });
-        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -330,6 +338,68 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
             .addComponent(labelMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgLinkLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Logout_Rounded_20px.png"))); // NOI18N
+        imgLinkLogout.setOpaque(true);
+        imgLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseExited(evt);
+            }
+        });
+
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        labelLinkLogout.setForeground(new java.awt.Color(255, 255, 255));
+        labelLinkLogout.setText(" Logout");
+        labelLinkLogout.setOpaque(true);
+        labelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLinkLogoutLayout = new javax.swing.GroupLayout(panelLinkLogout);
+        panelLinkLogout.setLayout(panelLinkLogoutLayout);
+        panelLinkLogoutLayout.setHorizontalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLinkLogoutLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(imgLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(labelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelLinkLogoutLayout.setVerticalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -339,6 +409,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
             .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,6 +424,8 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -402,53 +475,51 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
         memberIdLabel.setText("Member ID");
 
-        memberIdTextField.setForeground(new java.awt.Color(153, 153, 153));
-        memberIdTextField.setText("Enter member ID");
+        memberIdTextField.setForeground(new java.awt.Color(0, 51, 51));
         memberIdTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         firstNameLabel.setText("ISBN Number");
 
-        iSBNNumberTextField.setForeground(new java.awt.Color(153, 153, 153));
-        iSBNNumberTextField.setText("Enter ISBN Number");
+        iSBNNumberTextField.setForeground(new java.awt.Color(0, 51, 51));
         iSBNNumberTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        iSBNNumberTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                iSBNNumberTextFieldActionPerformed(evt);
+            }
+        });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        btnAdd.setText("Search");
-
-        btnCheckout.setText("Checkout");
-
-
-        btnDelete.setText("Return");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+        btnUpdate.setText("Checkout");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpdateMouseClicked(evt);
             }
         });
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnCheckout, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
             .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(btnAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnCheckout)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdate)
+                .addGap(18, 18, 18)
                 .addComponent(btnClear)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -474,31 +545,36 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(45, 45, 45)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(memberIdLabel)
+                            .addComponent(firstNameLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(memberIdLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(memberIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(firstNameLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(iSBNNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(memberIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(iSBNNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Member ID");
-        tableModel.addColumn("First Name");
-		tableModel.addColumn("Last Name");
-		tableModel.addColumn("Book Title");
-		tableModel.addColumn("ISBN Number");
-		tableModel.addColumn("Copy Number");
-		tableModel.addColumn("Checkout Date");
-		tableModel.addColumn("Due Date");
-        checkoutRecordsTable.setModel(tableModel);
-        loadListOfCheckoutEntries();
+        checkoutRecordsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Member ID", "First Name", "Last Name", "Book Title", "ISBN Number", "Copy Number", "Checkout Date", "Due Date"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         checkoutRecordsTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(checkoutRecordsTable);
         checkoutRecordsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -560,10 +636,6 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnLoginExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginExitMouseClicked
         System.exit(0);
@@ -692,6 +764,50 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         navigateToMoreInfoWindow();
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
+    private void imgLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_imgLinkLogoutMouseClicked
+
+    private void imgLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_imgLinkLogoutMouseEntered
+
+    private void imgLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_imgLinkLogoutMouseExited
+
+    private void labelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_labelLinkLogoutMouseClicked
+
+    private void labelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_labelLinkLogoutMouseEntered
+
+    private void labelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_labelLinkLogoutMouseExited
+
+    private void panelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_panelLinkLogoutMouseClicked
+
+    private void panelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_panelLinkLogoutMouseEntered
+
+    private void panelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_panelLinkLogoutMouseExited
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        memberIdTextField.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void iSBNNumberTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iSBNNumberTextFieldActionPerformed
+        memberIdTextField.setText("");
+    }//GEN-LAST:event_iSBNNumberTextFieldActionPerformed
+
     private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -723,6 +839,18 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
+    }
+    
+    private void navigateToLoginPage() {
+        this.setVisible(false);
+        SystemController.currentAuth = null;
+        Login login = new Login();
+
+        FrameDragListener frameDragListener = new FrameDragListener(login);
+        login.addMouseListener(frameDragListener);
+        login.addMouseMotionListener(frameDragListener);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
     }
 
     private void linkManageMembersMouseEntered() {
@@ -772,6 +900,18 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
+    
+    private void linkLogoutLinkMouseEntered() {
+        panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+    }
+    
+    private void linkLogoutLinkMouseExited() {
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+    }
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -815,18 +955,15 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-
-    private DefaultTableModel tableModel;
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;
-    private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnCheckout;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JTable checkoutRecordsTable;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JTextField iSBNNumberTextField;
     private javax.swing.JLabel imgCheckoutRecords;
+    private javax.swing.JLabel imgLinkLogout;
     private javax.swing.JLabel imgManageBooks;
     private javax.swing.JLabel imgManageMembers;
     private javax.swing.JLabel imgMoreInfo;
@@ -839,12 +976,14 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCheckoutRecords;
+    private javax.swing.JLabel labelLinkLogout;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
     private javax.swing.JLabel labelMoreInfo;
     private javax.swing.JLabel memberIdLabel;
     private javax.swing.JTextField memberIdTextField;
     private javax.swing.JPanel panelLinkCheckoutRecords;
+    private javax.swing.JPanel panelLinkLogout;
     private javax.swing.JPanel panelLinkManageBooks;
     private javax.swing.JPanel panelLinkManageMembers;
     private javax.swing.JPanel panelLinkMoreInfo;

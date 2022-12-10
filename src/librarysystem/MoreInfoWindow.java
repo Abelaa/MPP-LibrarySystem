@@ -4,6 +4,7 @@
  */
 package librarysystem;
 
+import business.SystemController;
 import java.awt.Color;
 
 /**
@@ -43,6 +44,9 @@ public class MoreInfoWindow extends javax.swing.JFrame {
         panelLinkMoreInfo = new javax.swing.JPanel();
         imgMoreInfo = new javax.swing.JLabel();
         labelMoreInfo = new javax.swing.JLabel();
+        panelLinkLogout1 = new javax.swing.JPanel();
+        imgLinkLogout1 = new javax.swing.JLabel();
+        labelLinkLogout1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnCloseWindow = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -270,6 +274,68 @@ public class MoreInfoWindow extends javax.swing.JFrame {
             .addComponent(labelMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        panelLinkLogout1.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkLogout1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkLogout1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelLinkLogout1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelLinkLogout1MouseExited(evt);
+            }
+        });
+
+        imgLinkLogout1.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgLinkLogout1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Logout_Rounded_20px.png"))); // NOI18N
+        imgLinkLogout1.setOpaque(true);
+        imgLinkLogout1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLinkLogout1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                imgLinkLogout1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                imgLinkLogout1MouseExited(evt);
+            }
+        });
+
+        labelLinkLogout1.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        labelLinkLogout1.setForeground(new java.awt.Color(255, 255, 255));
+        labelLinkLogout1.setText(" Logout");
+        labelLinkLogout1.setOpaque(true);
+        labelLinkLogout1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLinkLogout1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelLinkLogout1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelLinkLogout1MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLinkLogout1Layout = new javax.swing.GroupLayout(panelLinkLogout1);
+        panelLinkLogout1.setLayout(panelLinkLogout1Layout);
+        panelLinkLogout1Layout.setHorizontalGroup(
+            panelLinkLogout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLinkLogout1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(imgLinkLogout1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(labelLinkLogout1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelLinkLogout1Layout.setVerticalGroup(
+            panelLinkLogout1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgLinkLogout1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelLinkLogout1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -279,6 +345,7 @@ public class MoreInfoWindow extends javax.swing.JFrame {
             .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelLinkLogout1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,7 +360,9 @@ public class MoreInfoWindow extends javax.swing.JFrame {
                 .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLinkLogout1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -341,7 +410,7 @@ public class MoreInfoWindow extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE))
                 .addGap(55, 55, 55))
         );
         jPanel4Layout.setVerticalGroup(
@@ -363,29 +432,29 @@ public class MoreInfoWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 53, Short.MAX_VALUE))
         );
 
         pack();
@@ -516,6 +585,42 @@ public class MoreInfoWindow extends javax.swing.JFrame {
     private void labelManageBooksMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelManageBooksMouseExited
         linkManageBooksMouseExited();
     }//GEN-LAST:event_labelManageBooksMouseExited
+
+    private void imgLinkLogout1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogout1MouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_imgLinkLogout1MouseClicked
+
+    private void imgLinkLogout1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogout1MouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_imgLinkLogout1MouseEntered
+
+    private void imgLinkLogout1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogout1MouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_imgLinkLogout1MouseExited
+
+    private void labelLinkLogout1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogout1MouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_labelLinkLogout1MouseClicked
+
+    private void labelLinkLogout1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogout1MouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_labelLinkLogout1MouseEntered
+
+    private void labelLinkLogout1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogout1MouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_labelLinkLogout1MouseExited
+
+    private void panelLinkLogout1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogout1MouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_panelLinkLogout1MouseClicked
+
+    private void panelLinkLogout1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogout1MouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_panelLinkLogout1MouseEntered
+
+    private void panelLinkLogout1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogout1MouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_panelLinkLogout1MouseExited
     private void navigateToLibraryMemberWindow(){
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -547,6 +652,18 @@ public class MoreInfoWindow extends javax.swing.JFrame {
         checkoutRecordWindow.addMouseMotionListener(frameDragListener);
         checkoutRecordWindow.setLocationRelativeTo(null);
         checkoutRecordWindow.setVisible(true);
+    }
+    
+    private void navigateToLoginPage() {
+        this.setVisible(false);
+        SystemController.currentAuth = null;
+        Login login = new Login();
+
+        FrameDragListener frameDragListener = new FrameDragListener(login);
+        login.addMouseListener(frameDragListener);
+        login.addMouseMotionListener(frameDragListener);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
     }
     
     private void linkManageMembersMouseEntered(){
@@ -589,10 +706,24 @@ public class MoreInfoWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
+    
+    private void linkLogoutLinkMouseEntered() {
+        panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+    }
+    
+    private void linkLogoutLinkMouseExited() {
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JLabel imgCheckoutRecords;
+    private javax.swing.JLabel imgLinkLogout;
+    private javax.swing.JLabel imgLinkLogout1;
     private javax.swing.JLabel imgManageBooks;
     private javax.swing.JLabel imgManageMembers;
     private javax.swing.JLabel imgMoreInfo;
@@ -604,10 +735,14 @@ public class MoreInfoWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel labelCheckoutRecords;
+    private javax.swing.JLabel labelLinkLogout;
+    private javax.swing.JLabel labelLinkLogout1;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
     private javax.swing.JLabel labelMoreInfo;
     private javax.swing.JPanel panelLinkCheckoutRecords;
+    private javax.swing.JPanel panelLinkLogout;
+    private javax.swing.JPanel panelLinkLogout1;
     private javax.swing.JPanel panelLinkManageBooks;
     private javax.swing.JPanel panelLinkManageMembers;
     private javax.swing.JPanel panelLinkMoreInfo;

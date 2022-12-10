@@ -2,6 +2,6 @@
 /nbproject/private/
 /build/
 *.class
-*.class
-bin/
+bin
 src/dataaccess/storage/
+dist/

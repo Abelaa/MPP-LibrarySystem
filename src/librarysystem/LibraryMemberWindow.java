@@ -8,7 +8,12 @@ import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import business.LibraryMember;
 import business.SystemController;
+import dataaccess.Auth;
+import java.awt.event.MouseListener;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import utility.MouseListenerUtil;
 
 /**
  *
@@ -23,6 +28,23 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     public LibraryMemberWindow() {
         init();
         initComponents();
+        Auth auth = SystemController.currentAuth;
+        if (auth != null) {
+            switch (auth) {
+                case ADMIN:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    break;
+                case LIBRARIAN:
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
+                    break;
+                default:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    break;
+            }
+        }
     }
 
     private void init() {
@@ -75,6 +97,9 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         panelLinkMoreInfo = new javax.swing.JPanel();
         imgMoreInfo = new javax.swing.JLabel();
         labelMoreInfo = new javax.swing.JLabel();
+        panelLinkLogout = new javax.swing.JPanel();
+        imgLinkLogout = new javax.swing.JLabel();
+        labelLinkLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnCloseWindow = new javax.swing.JLabel();
         headingLabel = new javax.swing.JLabel();
@@ -321,6 +346,68 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
             .addComponent(labelMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgLinkLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Logout_Rounded_20px.png"))); // NOI18N
+        imgLinkLogout.setOpaque(true);
+        imgLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseExited(evt);
+            }
+        });
+
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        labelLinkLogout.setForeground(new java.awt.Color(255, 255, 255));
+        labelLinkLogout.setText(" Logout");
+        labelLinkLogout.setOpaque(true);
+        labelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLinkLogoutLayout = new javax.swing.GroupLayout(panelLinkLogout);
+        panelLinkLogout.setLayout(panelLinkLogoutLayout);
+        panelLinkLogoutLayout.setHorizontalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLinkLogoutLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(imgLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(labelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelLinkLogoutLayout.setVerticalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -330,6 +417,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
             .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,6 +432,8 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
                 .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -397,59 +487,23 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
 
         memberIdLabel.setText("Member ID");
 
-        memberIdTextField.setForeground(new java.awt.Color(153, 153, 153));
-        memberIdTextField.setText("Enter member ID");
+        memberIdTextField.setForeground(new java.awt.Color(0, 51, 51));
         memberIdTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        memberIdTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                memberIdTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                memberIdTextFieldFocusLost(evt);
-            }
-        });
 
         firstNameLabel.setText("First Name");
 
-        firstNameTextField.setForeground(new java.awt.Color(153, 153, 153));
-        firstNameTextField.setText("Enter first name");
+        firstNameTextField.setForeground(new java.awt.Color(0, 51, 51));
         firstNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        firstNameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                firstNameTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                firstNameTextFieldFocusLost(evt);
-            }
-        });
 
         lastNameLabel.setText("Last Name");
 
-        lastNameTextField.setForeground(new java.awt.Color(153, 153, 153));
-        lastNameTextField.setText("Enter last name");
+        lastNameTextField.setForeground(new java.awt.Color(0, 51, 51));
         lastNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        lastNameTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                lastNameTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lastNameTextFieldFocusLost(evt);
-            }
-        });
 
         telephoneLabel.setText("Telephone");
 
-        telephoneTextField.setForeground(new java.awt.Color(153, 153, 153));
-        telephoneTextField.setText("Enter telephone number");
+        telephoneTextField.setForeground(new java.awt.Color(0, 51, 51));
         telephoneTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        telephoneTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                telephoneTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                telephoneTextFieldFocusLost(evt);
-            }
-        });
 
         addressLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
         addressLabel.setText("Address");
@@ -457,59 +511,23 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
 
         streetAddressLabel.setText("Street Address");
 
-        streetAddressTextField.setForeground(new java.awt.Color(153, 153, 153));
-        streetAddressTextField.setText("Enter street address");
+        streetAddressTextField.setForeground(new java.awt.Color(0, 51, 51));
         streetAddressTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        streetAddressTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                streetAddressTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                streetAddressTextFieldFocusLost(evt);
-            }
-        });
 
         stateLabel.setText("State");
 
-        stateTextField.setForeground(new java.awt.Color(153, 153, 153));
-        stateTextField.setText("Enter state");
+        stateTextField.setForeground(new java.awt.Color(0, 51, 51));
         stateTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        stateTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                stateTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                stateTextFieldFocusLost(evt);
-            }
-        });
 
         cityLabel.setText("City");
 
-        cityTextField.setForeground(new java.awt.Color(153, 153, 153));
-        cityTextField.setText("Enter city");
+        cityTextField.setForeground(new java.awt.Color(0, 51, 51));
         cityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        cityTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                cityTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                cityTextFieldFocusLost(evt);
-            }
-        });
 
         zipCodeLabel.setText("Zip Code");
 
-        zipCodeTextField.setForeground(new java.awt.Color(153, 153, 153));
-        zipCodeTextField.setText("Enter zip code");
+        zipCodeTextField.setForeground(new java.awt.Color(0, 51, 51));
         zipCodeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
-        zipCodeTextField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                zipCodeTextFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                zipCodeTextFieldFocusLost(evt);
-            }
-        });
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -577,7 +595,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(telephoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(telephoneTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(lastNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
@@ -601,7 +619,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
                             .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(memberIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(memberIdTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 340, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
         );
@@ -832,34 +850,6 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         navigateToMoreInfoWindow();
     }//GEN-LAST:event_labelMoreInfoMouseClicked
 
-    private void memberIdTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_memberIdTextFieldFocusGained
-        if (memberIdTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entermemberid")) {
-            memberIdTextField.setText("");
-            memberIdTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_memberIdTextFieldFocusGained
-
-    private void memberIdTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_memberIdTextFieldFocusLost
-        if (memberIdTextField.getText().length() == 0 || memberIdTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entermemberid")) {
-            memberIdTextField.setText("Enter member ID");
-            memberIdTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_memberIdTextFieldFocusLost
-
-    private void firstNameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstNameTextFieldFocusGained
-        if (firstNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterfirstname")) {
-            firstNameTextField.setText("");
-            firstNameTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_firstNameTextFieldFocusGained
-
-    private void firstNameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_firstNameTextFieldFocusLost
-        if (firstNameTextField.getText().length() == 0 || firstNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterfirstname")) {
-            firstNameTextField.setText("Enter first name");
-            firstNameTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_firstNameTextFieldFocusLost
-
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String memberID = memberIdTextField.getText();
         String firstName = firstNameTextField.getText();
@@ -889,90 +879,6 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
             zipCodeTextField.setText("");
         }
     }//GEN-LAST:event_btnAddActionPerformed
-
-    private void lastNameTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameTextFieldFocusGained
-        if (lastNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterlastname")) {
-            lastNameTextField.setText("");
-            lastNameTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_lastNameTextFieldFocusGained
-
-    private void lastNameTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lastNameTextFieldFocusLost
-        if (lastNameTextField.getText().length() == 0 || lastNameTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterlastname")) {
-            lastNameTextField.setText("Enter last name");
-            lastNameTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_lastNameTextFieldFocusLost
-
-    private void telephoneTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_telephoneTextFieldFocusGained
-        if (telephoneTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entertelephonenumber")) {
-            telephoneTextField.setText("");
-            telephoneTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_telephoneTextFieldFocusGained
-
-    private void telephoneTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_telephoneTextFieldFocusLost
-        if (telephoneTextField.getText().length() == 0 || telephoneTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entertelephonenumber")) {
-            telephoneTextField.setText("Enter telephone number");
-            telephoneTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_telephoneTextFieldFocusLost
-
-    private void streetAddressTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_streetAddressTextFieldFocusGained
-        if (streetAddressTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstreetaddress")) {
-            streetAddressTextField.setText("");
-            streetAddressTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_streetAddressTextFieldFocusGained
-
-    private void streetAddressTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_streetAddressTextFieldFocusLost
-        if (streetAddressTextField.getText().length() == 0 || streetAddressTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstreetaddress")) {
-            streetAddressTextField.setText("Enter street address");
-            streetAddressTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_streetAddressTextFieldFocusLost
-
-    private void stateTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_stateTextFieldFocusGained
-        if (stateTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstate")) {
-            stateTextField.setText("");
-            stateTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_stateTextFieldFocusGained
-
-    private void stateTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_stateTextFieldFocusLost
-        if (stateTextField.getText().length() == 0 || stateTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterstate")) {
-            stateTextField.setText("Enter state");
-            stateTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_stateTextFieldFocusLost
-
-    private void cityTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cityTextFieldFocusGained
-        if (cityTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entercity")) {
-            cityTextField.setText("");
-            cityTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_cityTextFieldFocusGained
-
-    private void cityTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_cityTextFieldFocusLost
-        if (cityTextField.getText().length() == 0 || cityTextField.getText().replaceAll(" ", "").equalsIgnoreCase("entercity")) {
-            cityTextField.setText("Enter city");
-            cityTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_cityTextFieldFocusLost
-
-    private void zipCodeTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_zipCodeTextFieldFocusGained
-        if (zipCodeTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterzipcode")) {
-            zipCodeTextField.setText("");
-            zipCodeTextField.setForeground(Color.black);
-        }
-    }//GEN-LAST:event_zipCodeTextFieldFocusGained
-
-    private void zipCodeTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_zipCodeTextFieldFocusLost
-        if (zipCodeTextField.getText().length() == 0 || zipCodeTextField.getText().replaceAll(" ", "").equalsIgnoreCase("enterzipcode")) {
-            zipCodeTextField.setText("Enter zip code");
-            zipCodeTextField.setForeground(new Color(153, 153, 153));
-        }
-    }//GEN-LAST:event_zipCodeTextFieldFocusLost
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int row = libraryMembersTable.getSelectedRow();
@@ -1030,56 +936,52 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         cityTextField.setText(tableModel.getValueAt(r, 5).toString());
         stateTextField.setText(tableModel.getValueAt(r, 6).toString());
         zipCodeTextField.setText(tableModel.getValueAt(r, 7).toString());
+
+        memberIdTextField.setForeground(Color.black);
+        firstNameTextField.setForeground(Color.black);
+        lastNameTextField.setForeground(Color.black);
+        telephoneTextField.setForeground(Color.black);
+        streetAddressTextField.setForeground(Color.black);
+        cityTextField.setForeground(Color.black);
+        stateTextField.setForeground(Color.black);
+        zipCodeTextField.setForeground(Color.black);
     }//GEN-LAST:event_libraryMembersTableMouseClicked
 
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+    private void imgLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_imgLinkLogoutMouseClicked
 
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void imgLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_imgLinkLogoutMouseEntered
 
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void imgLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_imgLinkLogoutMouseExited
 
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void labelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_labelLinkLogoutMouseClicked
 
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void labelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_labelLinkLogoutMouseEntered
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                LibraryMemberWindow libraryMemberWindow = new LibraryMemberWindow();
+    private void labelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_labelLinkLogoutMouseExited
 
-                FrameDragListener frameDragListener = new FrameDragListener(libraryMemberWindow);
-                libraryMemberWindow.addMouseListener(frameDragListener);
-                libraryMemberWindow.addMouseMotionListener(frameDragListener);
+    private void panelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_panelLinkLogoutMouseClicked
 
-                libraryMemberWindow.setTitle("Library Member Window");
-                libraryMemberWindow.pack();
-                libraryMemberWindow.setLocationRelativeTo(null);
-                libraryMemberWindow.setVisible(true);
-            }
-        });
-    }
+    private void panelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_panelLinkLogoutMouseEntered
+
+    private void panelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_panelLinkLogoutMouseExited
 
     private void navigateToBookWindow() {
         this.setVisible(false);
@@ -1112,6 +1014,18 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
+    }
+    
+    private void navigateToLoginPage() {
+        this.setVisible(false);
+        SystemController.currentAuth = null;
+        Login login = new Login();
+
+        FrameDragListener frameDragListener = new FrameDragListener(login);
+        login.addMouseListener(frameDragListener);
+        login.addMouseMotionListener(frameDragListener);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
     }
 
     private void linkManageMembersMouseEntered() {
@@ -1161,6 +1075,18 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
+    
+    private void linkLogoutLinkMouseEntered() {
+        panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+    }
+    
+    private void linkLogoutLinkMouseExited() {
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addressLabel;
@@ -1176,6 +1102,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JLabel imgCheckoutRecords;
+    private javax.swing.JLabel imgLinkLogout;
     private javax.swing.JLabel imgManageBooks;
     private javax.swing.JLabel imgManageMembers;
     private javax.swing.JLabel imgMoreInfo;
@@ -1188,6 +1115,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCheckoutRecords;
+    private javax.swing.JLabel labelLinkLogout;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
     private javax.swing.JLabel labelMoreInfo;
@@ -1197,6 +1125,7 @@ public class LibraryMemberWindow extends javax.swing.JFrame {
     private javax.swing.JLabel memberIdLabel;
     private javax.swing.JTextField memberIdTextField;
     private javax.swing.JPanel panelLinkCheckoutRecords;
+    private javax.swing.JPanel panelLinkLogout;
     private javax.swing.JPanel panelLinkManageBooks;
     private javax.swing.JPanel panelLinkManageMembers;
     private javax.swing.JPanel panelLinkMoreInfo;

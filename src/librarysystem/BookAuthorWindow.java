@@ -89,31 +89,13 @@ public class BookAuthorWindow extends javax.swing.JFrame {
         zipCodeTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
-        btnAdd.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		String firstName = firstNameTextField.getText();
-        		String lastName =lastNameTextField.getText();
-        		String telephone = telephoneTextField.getText();
-        		String street = streetAddressTextField.getText();
-        		String city = cityTextField.getText();
-        		String state = stateTextField.getText();
-        		String zip = zipCodeTextField.getText();
-        		Address addr = new Address(street, city, state, zip);
-        		String bio = tfBio.getText();
-        		boolean hasCredential = cbHasCredential.isSelected();
-        		Author author = new Author(firstName, lastName, telephone, addr, bio, hasCredential);
-
-        		BookAuthorWindow.this.book.addAuthor(author);
-        		BookAuthorWindow.this.loadListOfAuthors();
-        	}
-        });
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnClear1 = new javax.swing.JButton();
         telephoneLabel1 = new javax.swing.JLabel();
-        tfBio = new javax.swing.JTextField();
-        cbHasCredential = new javax.swing.JCheckBox();
+        telephoneTextField1 = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         libraryMembersTable = new javax.swing.JTable();
@@ -179,20 +161,17 @@ public class BookAuthorWindow extends javax.swing.JFrame {
 
         firstNameLabel.setText("First Name");
 
-        firstNameTextField.setForeground(new java.awt.Color(153, 153, 153));
-        firstNameTextField.setText("Enter first name");
+        firstNameTextField.setForeground(new java.awt.Color(0, 51, 51));
         firstNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         lastNameLabel.setText("Last Name");
 
-        lastNameTextField.setForeground(new java.awt.Color(153, 153, 153));
-        lastNameTextField.setText("Enter last name");
+        lastNameTextField.setForeground(new java.awt.Color(0, 51, 51));
         lastNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         telephoneLabel.setText("Telephone");
 
-        telephoneTextField.setForeground(new java.awt.Color(153, 153, 153));
-        telephoneTextField.setText("Enter telephone number");
+        telephoneTextField.setForeground(new java.awt.Color(0, 51, 51));
         telephoneTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         addressLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 14)); // NOI18N
@@ -201,26 +180,22 @@ public class BookAuthorWindow extends javax.swing.JFrame {
 
         streetAddressLabel.setText("Street Address");
 
-        streetAddressTextField.setForeground(new java.awt.Color(153, 153, 153));
-        streetAddressTextField.setText("Enter street address");
+        streetAddressTextField.setForeground(new java.awt.Color(0, 51, 51));
         streetAddressTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         stateLabel.setText("State");
 
-        stateTextField.setForeground(new java.awt.Color(153, 153, 153));
-        stateTextField.setText("Enter state");
+        stateTextField.setForeground(new java.awt.Color(0, 51, 51));
         stateTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         cityLabel.setText("City");
 
-        cityTextField.setForeground(new java.awt.Color(153, 153, 153));
-        cityTextField.setText("Enter city");
+        cityTextField.setForeground(new java.awt.Color(0, 51, 51));
         cityTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         zipCodeLabel.setText("Zip Code");
 
-        zipCodeTextField.setForeground(new java.awt.Color(153, 153, 153));
-        zipCodeTextField.setText("Enter zip code");
+        zipCodeTextField.setForeground(new java.awt.Color(0, 51, 51));
         zipCodeTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -278,11 +253,10 @@ public class BookAuthorWindow extends javax.swing.JFrame {
 
         telephoneLabel1.setText("Bio");
 
-        tfBio.setForeground(new java.awt.Color(153, 153, 153));
-        tfBio.setText(" Type short bio");
-        tfBio.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
+        telephoneTextField1.setForeground(new java.awt.Color(0, 51, 51));
+        telephoneTextField1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 204, 204)));
 
-        cbHasCredential.setText("Has Credential");
+        jCheckBox1.setText("Has Credential");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -305,17 +279,16 @@ public class BookAuthorWindow extends javax.swing.JFrame {
                                         .addComponent(lastNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(telephoneLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(telephoneTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(cbHasCredential, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(telephoneLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(zipCodeLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(zipCodeTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(stateTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cityLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(cityTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(stateLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(stateTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cityLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cityTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(stateLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(basicInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(38, 38, 38)
@@ -323,7 +296,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
                             .addComponent(streetAddressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(streetAddressTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                             .addComponent(addressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(tfBio))
+                    .addComponent(telephoneTextField1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(14, 14, 14))
@@ -351,9 +324,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(stateLabel)
-                                    .addGap(78, 78, 78))
+                                .addComponent(stateLabel)
                                 .addGroup(jPanel4Layout.createSequentialGroup()
                                     .addGap(22, 22, 22)
                                     .addComponent(stateTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -377,28 +348,33 @@ public class BookAuthorWindow extends javax.swing.JFrame {
                                 .addComponent(zipCodeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(15, 15, 15)
-                                .addComponent(cbHasCredential)
+                                .addComponent(jCheckBox1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(telephoneLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfBio, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(telephoneTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
 
+        libraryMembersTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "First Name", "Last Name", "Telephone", "Bio", "Credential", "Street Address", "State", "City", "Zip Code"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
 
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("First Name");
-        tableModel.addColumn("Last Name");
-        tableModel.addColumn("Telephone");
-        tableModel.addColumn("Street Address");
-        tableModel.addColumn("State");
-        tableModel.addColumn("City Name");
-        tableModel.addColumn("Zip Code");
-        tableModel.addColumn("Has Credential");
-        tableModel.addColumn("Bio");
-        libraryMembersTable.setModel(tableModel);
-        loadListOfAuthors();
-  
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(libraryMembersTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -504,7 +480,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JLabel headingLabel;
-    private javax.swing.JCheckBox cbHasCredential;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -515,7 +491,6 @@ public class BookAuthorWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lastNameLabel;
     private javax.swing.JTextField lastNameTextField;
     private javax.swing.JTable libraryMembersTable;
-    private DefaultTableModel tableModel;
     private javax.swing.JLabel stateLabel;
     private javax.swing.JTextField stateTextField;
     private javax.swing.JLabel streetAddressLabel;
@@ -523,7 +498,7 @@ public class BookAuthorWindow extends javax.swing.JFrame {
     private javax.swing.JLabel telephoneLabel;
     private javax.swing.JLabel telephoneLabel1;
     private javax.swing.JTextField telephoneTextField;
-    private javax.swing.JTextField tfBio;
+    private javax.swing.JTextField telephoneTextField1;
     private javax.swing.JLabel zipCodeLabel;
     private javax.swing.JTextField zipCodeTextField;
     // End of variables declaration//GEN-END:variables

@@ -15,8 +15,12 @@ import business.Author;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import dataaccess.Auth;
+import static dataaccess.Auth.ADMIN;
+import static dataaccess.Auth.LIBRARIAN;
 
 import java.awt.event.ActionEvent;
+import utility.MouseListenerUtil;
 
 /**
  *
@@ -31,6 +35,24 @@ public class BookWindow extends javax.swing.JFrame {
     public BookWindow() {
         ci = new SystemController();
         initComponents();
+        
+        Auth auth = SystemController.currentAuth;
+        if (auth != null) {
+            switch (auth) {
+                case ADMIN:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords);                    
+                    break;
+                case LIBRARIAN:
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);
+                    break;
+                default:
+                    MouseListenerUtil.removeMouseListener(panelLinkCheckoutRecords, imgCheckoutRecords, labelCheckoutRecords); 
+                    MouseListenerUtil.removeMouseListener(panelLinkManageMembers, imgManageMembers, labelManageMembers);
+                    MouseListenerUtil.removeMouseListener(panelLinkManageBooks, imgManageBooks, labelManageBooks);                    
+                    break;
+            }
+        }
     }
     
     public void loadListOfBooks() {
@@ -73,6 +95,9 @@ public class BookWindow extends javax.swing.JFrame {
         panelLinkMoreInfo = new javax.swing.JPanel();
         imgMoreInfo = new javax.swing.JLabel();
         labelMoreInfo = new javax.swing.JLabel();
+        panelLinkLogout = new javax.swing.JPanel();
+        imgLinkLogout = new javax.swing.JLabel();
+        labelLinkLogout = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         btnCloseWindow = new javax.swing.JLabel();
         headingLabel = new javax.swing.JLabel();
@@ -85,37 +110,9 @@ public class BookWindow extends javax.swing.JFrame {
         numberOfCopiesTextField = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
-        btnAdd.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		String isbn = iSBNNumberTextField.getText();
-        		String title = bookTitleTextField.getText();
-        		int maxCheckoutLength = 21;
-        		Book book = new Book(isbn, title, maxCheckoutLength);
-        		ci.addBook(book);
-        		
-        		BookWindow.this.loadListOfBooks();
-        		JOptionPane.showMessageDialog(null, "Added book successfully.");
-        	}
-        });
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnAddCopy = new javax.swing.JButton();
-        btnAddCopy.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-                int selectedRow = booksListTable.getSelectedRow();
-                if (selectedRow == -1) {
-                	JOptionPane.showMessageDialog(null, "Please select a row from the list of books");
-                	return;
-                }
-
-                String isbn = tableModel.getValueAt(selectedRow, 1).toString();
-        		ci.addBookCopyByIsbn(isbn);
-        		loadListOfBooks();
-
-            	JOptionPane.showMessageDialog(null, "Copy added successully.");
-        	}
-        });
+        btnClear = new javax.swing.JButton();
         btnManageAuthors = new javax.swing.JButton();
         lastNameLabel1 = new javax.swing.JLabel();
         numberOfCheckoutDasysTextField = new javax.swing.JTextField();
@@ -338,6 +335,68 @@ public class BookWindow extends javax.swing.JFrame {
             .addComponent(labelMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        panelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                panelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgLinkLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_Logout_Rounded_20px.png"))); // NOI18N
+        imgLinkLogout.setOpaque(true);
+        imgLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                imgLinkLogoutMouseExited(evt);
+            }
+        });
+
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        labelLinkLogout.setForeground(new java.awt.Color(255, 255, 255));
+        labelLinkLogout.setText(" Logout");
+        labelLinkLogout.setOpaque(true);
+        labelLinkLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                labelLinkLogoutMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelLinkLogoutLayout = new javax.swing.GroupLayout(panelLinkLogout);
+        panelLinkLogout.setLayout(panelLinkLogoutLayout);
+        panelLinkLogoutLayout.setHorizontalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLinkLogoutLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(imgLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(labelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelLinkLogoutLayout.setVerticalGroup(
+            panelLinkLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -347,6 +406,7 @@ public class BookWindow extends javax.swing.JFrame {
             .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelLinkLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,6 +421,8 @@ public class BookWindow extends javax.swing.JFrame {
                 .addComponent(panelLinkCheckoutRecords, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelLinkMoreInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLinkLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -408,20 +470,17 @@ public class BookWindow extends javax.swing.JFrame {
 
         memberIdLabel.setText("Book Title");
 
-        bookTitleTextField.setForeground(new java.awt.Color(153, 153, 153));
-        bookTitleTextField.setText("Enter book title");
+        bookTitleTextField.setForeground(new java.awt.Color(0, 51, 51));
         bookTitleTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         firstNameLabel.setText("ISBN Number");
 
-        iSBNNumberTextField.setForeground(new java.awt.Color(153, 153, 153));
-        iSBNNumberTextField.setText("Enter ISBN Number");
+        iSBNNumberTextField.setForeground(new java.awt.Color(0, 51, 51));
         iSBNNumberTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
 
         lastNameLabel.setText("Number of Copies");
 
-        numberOfCopiesTextField.setForeground(new java.awt.Color(153, 153, 153));
-        numberOfCopiesTextField.setText("Enter number of copies");
+        numberOfCopiesTextField.setForeground(new java.awt.Color(0, 51, 51));
         numberOfCopiesTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
         numberOfCopiesTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -442,7 +501,7 @@ public class BookWindow extends javax.swing.JFrame {
             }
         });
 
-        btnAddCopy.setText("Add Copy");
+        btnClear.setText("Clear");
 
         btnManageAuthors.setText("Manage Authors");
         btnManageAuthors.addActionListener(new java.awt.event.ActionListener() {
@@ -461,7 +520,7 @@ public class BookWindow extends javax.swing.JFrame {
                     .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnAddCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -475,7 +534,7 @@ public class BookWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAddCopy)
+                .addComponent(btnClear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnManageAuthors)
                 .addContainerGap(36, Short.MAX_VALUE))
@@ -483,9 +542,13 @@ public class BookWindow extends javax.swing.JFrame {
 
         lastNameLabel1.setText("Max checkout(in days)");
 
-        numberOfCheckoutDasysTextField.setForeground(new java.awt.Color(153, 153, 153));
-        numberOfCheckoutDasysTextField.setText("Enter number of days");
+        numberOfCheckoutDasysTextField.setForeground(new java.awt.Color(0, 51, 51));
         numberOfCheckoutDasysTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        numberOfCheckoutDasysTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                numberOfCheckoutDasysTextFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -529,29 +592,49 @@ public class BookWindow extends javax.swing.JFrame {
                         .addComponent(memberIdLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bookTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bookTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(iSBNNumberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(191, 191, 191))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(firstNameLabel)
                             .addComponent(lastNameLabel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(numberOfCopiesTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
-        
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Title");
-        tableModel.addColumn("ISBN Number");
-        tableModel.addColumn("Total Number of Copies");
-        tableModel.addColumn("Copies Available");
-        booksListTable.setModel(tableModel);
-        loadListOfBooks();
-        
+
+        booksListTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Title", "ISBN Number", "Total Number of Copies", "Copies Available", "", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         booksListTable.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(booksListTable);
         booksListTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (booksListTable.getColumnModel().getColumnCount() > 0) {
+            booksListTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+            booksListTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+            booksListTable.getColumnModel().getColumn(3).setPreferredWidth(100);
+            booksListTable.getColumnModel().getColumn(4).setResizable(false);
+            booksListTable.getColumnModel().getColumn(4).setPreferredWidth(70);
+            booksListTable.getColumnModel().getColumn(5).setResizable(false);
+            booksListTable.getColumnModel().getColumn(5).setPreferredWidth(70);
+        }
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -745,6 +828,42 @@ public class BookWindow extends javax.swing.JFrame {
         bookAuthorWindow.setLocationRelativeTo(null);
         bookAuthorWindow.setVisible(true);
     }//GEN-LAST:event_btnManageAuthorsActionPerformed
+
+    private void imgLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_imgLinkLogoutMouseClicked
+
+    private void imgLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_imgLinkLogoutMouseEntered
+
+    private void imgLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imgLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_imgLinkLogoutMouseExited
+
+    private void labelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_labelLinkLogoutMouseClicked
+
+    private void labelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_labelLinkLogoutMouseEntered
+
+    private void labelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_labelLinkLogoutMouseExited
+
+    private void panelLinkLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseClicked
+        navigateToLoginPage();
+    }//GEN-LAST:event_panelLinkLogoutMouseClicked
+
+    private void panelLinkLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseEntered
+        linkLogoutLinkMouseEntered();
+    }//GEN-LAST:event_panelLinkLogoutMouseEntered
+
+    private void panelLinkLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelLinkLogoutMouseExited
+        linkLogoutLinkMouseExited();
+    }//GEN-LAST:event_panelLinkLogoutMouseExited
     private void navigateToLibraryMemberWindow(){
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -776,6 +895,18 @@ public class BookWindow extends javax.swing.JFrame {
         moreInfoWindow.addMouseMotionListener(frameDragListener);
         moreInfoWindow.setLocationRelativeTo(null);
         moreInfoWindow.setVisible(true);
+    }
+    
+    private void navigateToLoginPage() {
+        this.setVisible(false);
+        SystemController.currentAuth = null;
+        Login login = new Login();
+
+        FrameDragListener frameDragListener = new FrameDragListener(login);
+        login.addMouseListener(frameDragListener);
+        login.addMouseMotionListener(frameDragListener);
+        login.setLocationRelativeTo(null);
+        login.setVisible(true);
     }
     
     private void linkManageMembersMouseEntered(){
@@ -818,13 +949,24 @@ public class BookWindow extends javax.swing.JFrame {
         imgMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
         labelMoreInfo.setBackground(new java.awt.Color(53, 137, 224));
     }
+    
+    private void linkLogoutLinkMouseEntered() {
+        panelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        imgLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+        labelLinkLogout.setBackground(new java.awt.Color(60, 170, 230));
+    }
+    
+    private void linkLogoutLinkMouseExited() {
+        panelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        imgLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+        labelLinkLogout.setBackground(new java.awt.Color(53, 137, 224));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField bookTitleTextField;
     private javax.swing.JTable booksListTable;
-    private DefaultTableModel tableModel;
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAddCopy;
+    private javax.swing.JButton btnClear;
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnManageAuthors;
@@ -833,6 +975,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JLabel headingLabel;
     private javax.swing.JTextField iSBNNumberTextField;
     private javax.swing.JLabel imgCheckoutRecords;
+    private javax.swing.JLabel imgLinkLogout;
     private javax.swing.JLabel imgManageBooks;
     private javax.swing.JLabel imgManageMembers;
     private javax.swing.JLabel imgMoreInfo;
@@ -845,6 +988,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelCheckoutRecords;
+    private javax.swing.JLabel labelLinkLogout;
     private javax.swing.JLabel labelManageBooks;
     private javax.swing.JLabel labelManageMembers;
     private javax.swing.JLabel labelMoreInfo;
@@ -854,6 +998,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JTextField numberOfCheckoutDasysTextField;
     private javax.swing.JTextField numberOfCopiesTextField;
     private javax.swing.JPanel panelLinkCheckoutRecords;
+    private javax.swing.JPanel panelLinkLogout;
     private javax.swing.JPanel panelLinkManageBooks;
     private javax.swing.JPanel panelLinkManageMembers;
     private javax.swing.JPanel panelLinkMoreInfo;
