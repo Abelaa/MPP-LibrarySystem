@@ -23,7 +23,6 @@ import utility.MouseListenerUtil;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import utility.ValidationUtil;
 
 /**
  *
@@ -132,6 +131,7 @@ public class BookWindow extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
         btnManageAuthors = new javax.swing.JButton();
+        btnManageAuthors1 = new javax.swing.JButton();
         lastNameLabel1 = new javax.swing.JLabel();
         numberOfCheckoutDaysTextField = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
@@ -545,6 +545,13 @@ public class BookWindow extends javax.swing.JFrame {
             }
         });
 
+        btnManageAuthors1.setText("Overdue");
+        btnManageAuthors1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnManageAuthors1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -556,7 +563,8 @@ public class BookWindow extends javax.swing.JFrame {
                     .addComponent(btnAddCopy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
+                    .addComponent(btnManageAuthors, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(btnManageAuthors1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -572,7 +580,8 @@ public class BookWindow extends javax.swing.JFrame {
                 .addComponent(btnClear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnManageAuthors)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(btnManageAuthors1))
         );
 
         lastNameLabel1.setText("Max checkout(in days)");
@@ -645,7 +654,9 @@ public class BookWindow extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -664,9 +675,9 @@ public class BookWindow extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -883,6 +894,11 @@ public class BookWindow extends javax.swing.JFrame {
             return;
         }
         
+        if (ci.bookAlreadyExists(isbn)) {
+            JOptionPane.showMessageDialog(null, "A book with this ISBN already exists.");
+            return;
+        }
+        
         int maxCheckoutLength = 0, numberOfCopies = 0;
         try {
             maxCheckoutLength = Integer.parseInt(numberOfCheckoutDaysTextField.getText());
@@ -924,6 +940,16 @@ public class BookWindow extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(null, "Copy added successully.");
     }//GEN-LAST:event_btnAddCopyActionPerformed
+
+    private void btnManageAuthors1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManageAuthors1ActionPerformed
+        OverdueWindow overdueWindow = new OverdueWindow();
+
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(overdueWindow);
+        overdueWindow.addMouseListener(frameDragListener);
+        overdueWindow.addMouseMotionListener(frameDragListener);
+        overdueWindow.setLocationRelativeTo(null);
+        overdueWindow.setVisible(true);
+    }//GEN-LAST:event_btnManageAuthors1ActionPerformed
     private void navigateToLibraryMemberWindow() {
         this.setVisible(false);
         LibraryMemberWindow libraryMember = new LibraryMemberWindow();
@@ -1038,6 +1064,7 @@ public class BookWindow extends javax.swing.JFrame {
     private javax.swing.JLabel btnCloseWindow;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnManageAuthors;
+    private javax.swing.JButton btnManageAuthors1;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JLabel headingLabel;
     private javax.swing.JTextField iSBNNumberTextField;

@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import utility.MouseListenerUtil;
-import utility.ValidationUtil;
 
 /**
  *

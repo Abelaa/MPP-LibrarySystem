@@ -157,4 +157,27 @@ public class SystemController implements ControllerInterface {
 
         return message;
     }
+    
+    @Override
+    public boolean bookAlreadyExists(String isbn) {
+        DataAccess da = new DataAccessFacade();
+        Book book = da.getBookByIsbn(isbn);
+        return book != null;
+    }
+    
+    @Override
+    public List<CheckoutEntry> getCheckedoutEntries(String isbn) {
+        DataAccess da = new DataAccessFacade();
+        Collection<LibraryMember> allMembers = da.readMemberMap().values();
+        List<CheckoutEntry> retEntries = new ArrayList();
+        for (LibraryMember m : allMembers) {
+            for (CheckoutEntry entry : m.getCheckoutRecord().getCheckoutEntries()) {
+                if (entry.getBookCopy().getBook().getIsbn().equals(isbn)) {
+                    retEntries.add(entry);
+                }
+            }
+        }
+        return retEntries;
+    }
+    
 }

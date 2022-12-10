@@ -21,4 +21,6 @@ public interface ControllerInterface {
 	public List<CheckoutEntry> allCheckoutEntries();
         public List<CheckoutEntry> getCheckoutEntriesByID(String memberID);
 	public String validateMemberIDAndISBN(String memberId, String isbn);
+        public boolean bookAlreadyExists(String isbn);
+        public List<CheckoutEntry> getCheckedoutEntries(String isbn);
 }

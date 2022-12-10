@@ -26,7 +26,6 @@ import dataaccess.DataAccessFacade;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import utility.MouseListenerUtil;
-import utility.ValidationUtil;
 
 /**
  *

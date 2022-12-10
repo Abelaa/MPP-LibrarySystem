@@ -26,13 +26,33 @@ public class TestData {
 	
 	
 	public static void main(String[] args) {
-		TestData td = new TestData();
-		td.bookData();
-		td.libraryMemberData();
-		td.userData();
-		DataAccess da = new DataAccessFacade();
-		System.out.println(da.readBooksMap());
-		System.out.println(da.readUserMap());
+//		TestData td = new TestData();
+//		td.bookData();
+//		td.libraryMemberData();
+//		td.userData();
+//		DataAccess da = new DataAccessFacade();
+//		System.out.println(da.readBooksMap());
+//		System.out.println(da.readUserMap());
+
+                DataAccess da = new DataAccessFacade();
+                Book book = da.getBookByIsbn("1006");
+                LibraryMember mem = da.getLibraryMemberById("1007"); // rahel
+                SystemController ci = new SystemController();
+                
+                
+                
+
+                BookCopy bookCopy = book.getNextAvailableCopy();
+                LocalDate checkoutDate = LocalDate.now().minusDays(15);
+                LocalDate dueDate = LocalDate.now().minusDays(10);
+
+                mem.getCheckoutRecord().addCheckoutEntry(bookCopy, checkoutDate, dueDate);
+                bookCopy.changeAvailability();
+
+                da.updateMember(mem);
+                da.updateBook(book);
+                
+                
 		
 		/*
 		 * Only run after the above data is done
