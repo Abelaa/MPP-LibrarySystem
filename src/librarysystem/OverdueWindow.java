@@ -298,17 +298,17 @@ public class OverdueWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbackActionPerformed
-        navigateToBookWindow();
+        navigateToCheckoutWindow();
     }//GEN-LAST:event_btnbackActionPerformed
-    private void navigateToBookWindow() {
+    private void navigateToCheckoutWindow() {
         this.setVisible(false);
-        BookWindow bookWindow = new BookWindow();
+        CheckoutRecordWindow checkoutWindow = new CheckoutRecordWindow();
 
-        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(bookWindow);
-        bookWindow.addMouseListener(frameDragListener);
-        bookWindow.addMouseMotionListener(frameDragListener);
-        bookWindow.setLocationRelativeTo(null);
-        bookWindow.setVisible(true);
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(checkoutWindow);
+        checkoutWindow.addMouseListener(frameDragListener);
+        checkoutWindow.addMouseMotionListener(frameDragListener);
+        checkoutWindow.setLocationRelativeTo(null);
+        checkoutWindow.setVisible(true);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable booksListTable;

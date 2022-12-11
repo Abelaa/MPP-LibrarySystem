@@ -6,13 +6,11 @@ package librarysystem;
 
 import utility.FrameDragListenerUtil;
 import java.awt.Color;
-import java.awt.TrayIcon;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import business.Book;
 import business.CheckoutEntry;
 import business.ControllerInterface;
 import business.LibraryMember;
@@ -23,8 +21,6 @@ import static dataaccess.Auth.BOTH;
 import static dataaccess.Auth.LIBRARIAN;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import utility.MouseListenerUtil;
 
 /**
@@ -868,7 +864,13 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_btnClear1ActionPerformed
 
     private void btnClear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear2ActionPerformed
-        JOptionPane.showMessageDialog(this, "This feature is under construction.");
+        OverdueWindow overdueWindow = new OverdueWindow();
+
+        FrameDragListenerUtil frameDragListener = new FrameDragListenerUtil(overdueWindow);
+        overdueWindow.addMouseListener(frameDragListener);
+        overdueWindow.addMouseMotionListener(frameDragListener);
+        overdueWindow.setLocationRelativeTo(null);
+        overdueWindow.setVisible(true);
     }//GEN-LAST:event_btnClear2ActionPerformed
 
     private void navigateToLibraryMemberWindow() {
