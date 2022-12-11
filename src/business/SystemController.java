@@ -166,6 +166,13 @@ public class SystemController implements ControllerInterface {
     }
     
     @Override
+    public boolean libraryMemberAlreadyExists(String memberId) {
+        DataAccess da = new DataAccessFacade();
+        LibraryMember libraryMember = da.getLibraryMemberById(memberId);
+        return libraryMember == null;
+    }
+    
+    @Override
     public List<CheckoutEntry> getCheckedoutEntries(String isbn) {
         DataAccess da = new DataAccessFacade();
         Collection<LibraryMember> allMembers = da.readMemberMap().values();

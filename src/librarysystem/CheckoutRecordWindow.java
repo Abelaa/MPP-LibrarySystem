@@ -129,7 +129,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         btnUpdate = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
-        btnClear1 = new javax.swing.JButton();
+        btnPrintCheckoutRecord = new javax.swing.JButton();
         btnClear2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -517,15 +517,15 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
             }
         });
 
-        btnClear1.setBackground(new java.awt.Color(242, 242, 242));
-        btnClear1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnClear1.setForeground(new java.awt.Color(51, 51, 51));
-        btnClear1.setText("Print Checkout Record");
-        btnClear1.setBorder(null);
-        btnClear1.setOpaque(true);
-        btnClear1.addActionListener(new java.awt.event.ActionListener() {
+        btnPrintCheckoutRecord.setBackground(new java.awt.Color(242, 242, 242));
+        btnPrintCheckoutRecord.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPrintCheckoutRecord.setForeground(new java.awt.Color(51, 51, 51));
+        btnPrintCheckoutRecord.setText("Print Checkout Record");
+        btnPrintCheckoutRecord.setBorder(null);
+        btnPrintCheckoutRecord.setOpaque(true);
+        btnPrintCheckoutRecord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClear1ActionPerformed(evt);
+                btnPrintCheckoutRecordActionPerformed(evt);
             }
         });
 
@@ -535,7 +535,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnClear1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+            .addComponent(btnPrintCheckoutRecord, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -545,7 +545,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(btnClear)
                 .addGap(18, 18, 18)
-                .addComponent(btnClear1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrintCheckoutRecord, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
@@ -834,11 +834,15 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         CheckoutRecordWindow.this.loadListOfCheckoutEntries();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnClear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear1ActionPerformed
+    private void btnPrintCheckoutRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintCheckoutRecordActionPerformed
         String memberId = memberIdTextField.getText();
 
         if (memberId.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please enter member id first.");
+            return;
+        }
+        if (ci.libraryMemberAlreadyExists(memberId)) {
+            JOptionPane.showMessageDialog(null, "Library Member doesn't exist");
             return;
         }
         List<CheckoutEntry> memberCheckoutEntries = ci.getCheckoutEntriesByID(memberId);
@@ -861,7 +865,7 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
         memberCheckoutHistoryWindow.addMouseMotionListener(frameDragListener);
         memberCheckoutHistoryWindow.setLocationRelativeTo(null);
         memberCheckoutHistoryWindow.setVisible(true);
-    }//GEN-LAST:event_btnClear1ActionPerformed
+    }//GEN-LAST:event_btnPrintCheckoutRecordActionPerformed
 
     private void btnClear2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClear2ActionPerformed
         OverdueWindow overdueWindow = new OverdueWindow();
@@ -980,9 +984,9 @@ public class CheckoutRecordWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnClear1;
     private javax.swing.JButton btnClear2;
     private javax.swing.JLabel btnCloseWindow;
+    private javax.swing.JButton btnPrintCheckoutRecord;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JTable checkoutRecordsTable;
     private javax.swing.JLabel firstNameLabel;
